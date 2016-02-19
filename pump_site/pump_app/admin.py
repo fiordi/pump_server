@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from pump_app.models import Course
+
+admin.site.register(Course)
