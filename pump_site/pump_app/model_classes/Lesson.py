@@ -1,29 +1,16 @@
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
-import Trainer
-import Course
+from django.contrib.auth.models import User
+from django.db import models
 
-class Lesson(object):
-	def setLessonInfo(self, aDay, aWeekDay, aStartTime, aEndTime, aRepeated):
-		pass
+class Lesson(models.Model):
+        id = models.AutoField(primary_key=True)
 
-	def __init__(self):
-		self.___id = None
-		"""@AttributeType string"""
-		self.___startTime = None
-		"""@AttributeType time"""
-		self.___endTime = None
-		"""@AttributeType time"""
-		self.___weekDay = None
-		"""@AttributeType day"""
-		self.___repeated = None
-		"""@AttributeType boolean"""
-		self.___date = None
-		"""@AttributeType date"""
-		self._lessonTrainer = None
-		# @AssociationType Trainer
-		# @AssociationMultiplicity 1
-		self._unnamed_Course_ = None
-		# @AssociationType Course
-		# @AssociationMultiplicity 1
+        name = models.TextField(null=True, blank=False)
+
+        description = models.TextField(null=True, blank=False)
+
+        open = models.NullBooleanField(null=True)
+
+        startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
+
+        endTime = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
