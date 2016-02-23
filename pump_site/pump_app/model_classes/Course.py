@@ -17,9 +17,9 @@ class Course(models.Model):
     endTime = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     if open:
-        coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Activatedcourse')
+        coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Activatedcourses')
     else:
-        coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Dectivatedcourse')
+        coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Dectivatedcourses')
 
     def addLesson(self, aWeekDay, aStarTime, aEndTime, aTrainer, aFrequency):
         pass
