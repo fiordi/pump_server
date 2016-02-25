@@ -19,5 +19,20 @@ class Lesson(models.Model):
 
     course = models.ForeignKey(Course, null=True, blank=True, related_name='lessons')
 
+    def makeNewLesson(self):
+        """
+
+        :rtype: object
+        """
+        self.save()
+        return self
+
+    def setLessonInfo(self, date, startTime, endTime):
+        self.date = date
+        self.startTime = startTime
+        self.endTime = endTime
+        #self.Trainer = Trainer
+        self.save()
+
     def __unicode__(self):
         return str(self.date)

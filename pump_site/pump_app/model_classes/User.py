@@ -1,15 +1,16 @@
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
-import UserCatalog
+from django.contrib.auth.models import AbstractBaseUser
+from django.db import models
 
-class User(object):
-	def __init__(self):
-		self.___id = None
-		"""@AttributeType string"""
-		self.___username = None
-		"""@AttributeType string"""
-		self.___password = None
-		"""@AttributeType string"""
-		self._unnamed_UserCatalog_ = None
-		# @AssociationType UserCatalog
+class User(AbstractBaseUser):
+  """
+  Interface class for User
+  """
+  username = models.CharField( 'username', max_length=10, unique=True, db_index=True)
+  email = models.EmailField('email address', unique=True)
+  joined = models.DateTimeField(auto_now_add=True)
+
+  USERNAME_FIELD = 'username'
+
+  def __unicode__(self):
+    return self.username
 

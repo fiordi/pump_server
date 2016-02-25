@@ -11,7 +11,7 @@ class Course(models.Model):
 
     description = models.TextField(null=True, blank=False)
 
-    open = models.NullBooleanField(null=True)
+    open = models.NullBooleanField(null=True, default=False)
 
     startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
@@ -21,19 +21,29 @@ class Course(models.Model):
         coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Activatedcourses')
     else:
         coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Dectivatedcourses')
+
+    def createCourse(self):
+        self.save()
+        return self
+
+    def setInfo(self, name, description, open, startDate, endDate):
+        self.name = name
+        self.description = description
+        self.open = open
+        self.startDate = startDate
+        self.endDate = endDate
+        self.save()
+
+
     # startDate e endDate sono degli oggetti di tipo datetime
     def addLesson(self, startDate, endDate, startTime, endTime, frequency):
         from pump_app.model_classes.Lesson import Lesson
 
         while startDate <= endDate:
-            lesson = Lesson()
+            lesson = Lesson().makeNewLesson()
 
-            lesson.date = startDate
+            lesson.setLessonInfo(startDate, startTime, endTime)
             startDate = startDate + datetime.timedelta(days=frequency)
-            lesson.startTime = startTime
-            lesson.endTime = endTime
-            lesson.Course = self
-            lesson.save()
 
 
     def setInfo(self, aName, aDescription, aOpen, aStartDate, aEndDate):

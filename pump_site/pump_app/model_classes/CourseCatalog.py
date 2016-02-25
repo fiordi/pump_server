@@ -6,8 +6,10 @@ class CourseCatalog(models.Model):
 
 	name = models.TextField(null=True, blank=False)
 
-	def addCourse(self):
-		pass
+	def addCourse(self, Course):
+		Course.coursecatalog = self
+		Course.save()
 
-	def activateCourse(self):
-		pass
+	def activateCourse(self, Course):
+		Course.open = True
+		Course.save()
