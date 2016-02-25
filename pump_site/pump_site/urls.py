@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from pump_app.views import Debug
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^debug/', Debug.as_view())
 ]

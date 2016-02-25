@@ -11,8 +11,13 @@ class Lesson(models.Model):
 
     open = models.NullBooleanField(null=True)
 
-    startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
+    date = models.DateField(null=True, auto_now=False, auto_now_add=False)
 
-    endTime = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
+    startTime = models.TimeField(null=True, auto_now=False, auto_now_add=False)
 
-    course = models.ForeignKey(Course, null=False, blank=False, related_name='lessons')
+    endTime = models.TimeField(null=True, auto_now=False, auto_now_add=False)
+
+    course = models.ForeignKey(Course, null=True, blank=True, related_name='lessons')
+
+    def __unicode__(self):
+        return str(self.date)
