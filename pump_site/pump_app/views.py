@@ -3,6 +3,8 @@ from django.views.generic import View
 from pump_app.models import Course
 import datetime
 
+from pump_app.model_classes.ManageCourseHandler import ManageCourseHandler
+
 class Debug(View):
     def get(self, request):
         startDate = datetime.date(2016, 2, 1)

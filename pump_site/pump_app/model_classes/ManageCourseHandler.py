@@ -1,30 +1,25 @@
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
-import UserCatalog
-import CourseCatalog
-import Course
+from django.http import HttpResponse
+from django.views.generic import View
 
-class ManageCourseHandler(object):
-	def makeNewCourse(self):
-		pass
+class ManageCourseHandler(View):
 
-	def setCourseInfo(self, aName, aDescription, aStartDate, aEndDate, aTypology):
-		pass
+    def makeNewCourse(self, request):
+       if request.method == 'GET':
+           from pump_app.model_classes import Course
+           course = Course.createCourse()
+           return course
 
-	def addLesson(self, aWeekDay, aStartTime, aEndTime, aTrainer, aFrequency):
-		pass
+    def setCourseInfo(self, request):
+        if request.method == 'GET':
+           from pump_app.model_classes import Course
+           course = Course.createCourse()
+           return course
 
-	def saveCourse(self):
-		pass
+    def addLesson(self, aWeekDay, aStartTime, aEndTime, aTrainer, aFrequency):
+        pass
 
-	def activateCourse(self):
-		pass
+    def saveCourse(self):
+        pass
 
-	def __init__(self):
-		self._unnamed_UserCatalog_ = None
-		# @AssociationType UserCatalog
-		self._unnamed_CourseCatalog_ = None
-		# @AssociationType CourseCatalog
-		self._unnamed_Course_ = None
-		# @AssociationType Course
-
+    def activateCourse(self):
+        pass
