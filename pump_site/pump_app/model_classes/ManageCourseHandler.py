@@ -7,17 +7,14 @@ class ManageCourseHandler(View):
        if request.method == 'GET':
            from Course import Course
            from CourseCatalog import CourseCatalog
-           course = Course().createCourse(open = True)
-           coursecatalog = CourseCatalog()
-           coursecatalog.save()
+           course = Course().createCourse(open = False)
+           coursecatalog = CourseCatalog() # to be continued
            coursecatalog.addCourse(course)
-
            return HttpResponse('ciao')
 
     def setCourseInfo(self, request):
         if request.method == 'GET':
            from pump_app.model_classes import Course
-           course = Course.createCourse()
            return course
 
     def addLesson(self, aWeekDay, aStartTime, aEndTime, aTrainer, aFrequency):

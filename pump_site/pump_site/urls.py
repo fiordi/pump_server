@@ -28,3 +28,10 @@ from pump_app.views import ManageCourseHandler
 urlpatterns.extend([
     url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
 ])
+
+#requests for ManageCourseHandler controller to be redirected to REST FRAMEWORK
+from pump_app.views import ManageCourseHandler
+
+urlpatterns.extend([
+    url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
+])
