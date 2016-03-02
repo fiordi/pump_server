@@ -1,15 +1,9 @@
-from django.contrib.auth.models import User
-from django.db import models
+from pump_app.REST_classes import CourseCatalog
+from rest_framework import serializers
 
-class CourseCatalog(models.Model):
-	id = models.AutoField(primary_key=True)
 
-	name = models.TextField(null=True, blank=False)
+class CourseCatalogModelSerializer(serializers.ModelSerializer):
 
-	def addCourse(self, Course):
-		Course.coursecatalog = self
-		Course.save()
-
-	def activateCourse(self, Course):
-		Course.open = True
-		Course.save()
+	class Meta:
+		model = CourseCatalog
+		fields = ('id', 'name')
