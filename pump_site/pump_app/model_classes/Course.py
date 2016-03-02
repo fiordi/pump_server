@@ -17,12 +17,14 @@ class Course(models.Model):
 
     endTime = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
-    #if open:
-        #coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Activatedcourses')
-   # else:
-       # coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Dectivatedcourses')
+    if open:
+        coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, related_name='Activatedcourses')
+    else:
+        coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, related_name='Dectivatedcourses')
 
-    def createCourse(self):
+    def createCourse(self, open, coursecatalog):
+        self.open = open
+        self.coursecatalog = models.ForeignKey(coursecatalog, null=True, blank=False, related_name='Dectivatedcourses')
         self.save()
         return self
 

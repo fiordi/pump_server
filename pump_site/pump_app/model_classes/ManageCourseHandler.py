@@ -6,7 +6,8 @@ class ManageCourseHandler(View):
     def makeNewCourse(self, request):
        if request.method == 'GET':
            from Course import Course
-           course = Course().createCourse()
+           from CourseCatalog import CourseCatalog
+           course = Course().createCourse(open = False, coursecatalog = CourseCatalog() )
            return HttpResponse('ciao')
 
     def setCourseInfo(self, request):
