@@ -22,9 +22,8 @@ class Course(models.Model):
     else:
         coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, related_name='Dectivatedcourses')
 
-    def createCourse(self, open, coursecatalog):
+    def createCourse(self, open):
         self.open = open
-        self.coursecatalog = models.ForeignKey(coursecatalog, null=True, blank=False, related_name='Dectivatedcourses')
         self.save()
         return self
 
