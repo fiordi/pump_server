@@ -5,9 +5,9 @@ class ManageCourseHandler(View):
 
     def makeNewCourse(self, request):
        if request.method == 'GET':
-           from pump_app.model_classes import Course
-           course = Course.createCourse()
-           return course
+           from Course import Course
+           course = Course().createCourse()
+           return HttpResponse('ciao')
 
     def setCourseInfo(self, request):
         if request.method == 'GET':

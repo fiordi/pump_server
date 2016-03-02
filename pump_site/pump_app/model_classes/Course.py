@@ -7,7 +7,7 @@ import datetime
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
 
-    name = models.TextField(null=True, blank=False)
+    name = models.TextField(null=True, blank=False, default='Undefined')
 
     description = models.TextField(null=True, blank=False)
 
@@ -17,10 +17,10 @@ class Course(models.Model):
 
     endTime = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
-    if open:
-        coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Activatedcourses')
-    else:
-        coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Dectivatedcourses')
+    #if open:
+        #coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Activatedcourses')
+   # else:
+       # coursecatalog = models.ForeignKey(CourseCatalog, null=False, blank=False, related_name='Dectivatedcourses')
 
     def createCourse(self):
         self.save()
