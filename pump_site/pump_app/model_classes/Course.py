@@ -15,7 +15,7 @@ class Course(models.Model):
 
     startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
-    endTime = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
+    endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     if open:
         coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, related_name='Activatedcourses')
@@ -51,4 +51,4 @@ class Course(models.Model):
         pass
 
     def __unicode__(self):
-        return self.name
+        return self.name + '(' + str(self.id) + ')'

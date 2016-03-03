@@ -23,5 +23,11 @@ class ManageCourseHandler(View):
     def saveCourse(self):
         pass
 
-    def activateCourse(self):
-        pass
+    def activateCourse(self, request, id_course):
+       if request.method == 'GET':
+           from Course import Course
+           from CourseCatalog import CourseCatalog
+           course = Course.objects.get(pk = id_course)
+           coursecatalog = CourseCatalog.objects.get()
+           coursecatalog.activateCourse(course)
+           return HttpResponse(id_course)

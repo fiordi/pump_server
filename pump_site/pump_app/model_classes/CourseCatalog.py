@@ -14,3 +14,6 @@ class CourseCatalog(SingletonModel):
 	def activateCourse(self, Course):
 		Course.open = True
 		Course.save()
+
+	def __unicode__(self):
+		return self.name
