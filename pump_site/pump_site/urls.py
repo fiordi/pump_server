@@ -29,9 +29,16 @@ urlpatterns.extend([
     url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
 ])
 
+
 #requests for ManageCourseHandler controller to be redirected to REST FRAMEWORK
-from pump_app.views import ManageCourseHandler
+from rest_framework import routers
+from django.conf.urls import url, include
+from pump_app.REST_classes.CourseCatalogViewSet import CourseCatalogViewSet
+
+router = routers.DefaultRouter()
+router.register(r'course_catalog', CourseCatalogViewSet)
 
 urlpatterns.extend([
-    url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
+    url(r'^rest/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ])
