@@ -27,6 +27,7 @@ from pump_app.views import ManageCourseHandler
 
 urlpatterns.extend([
     url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
+    url(r'^course/setcourseinfo', ManageCourseHandler().setCourseInfo),
 ])
 
 
