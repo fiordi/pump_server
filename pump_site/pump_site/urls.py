@@ -37,7 +37,7 @@ from django.conf.urls import url, include
 from pump_app.REST_classes.CourseCatalogViewSet import CourseCatalogViewSet
 
 router = routers.DefaultRouter()
-router.register(r'course_catalog', CourseCatalogViewSet)
+router.register(r'course', ManageCourseHandler().setCourseInfo(base_name='course'))
 
 urlpatterns.extend([
     url(r'^rest/', include(router.urls)),

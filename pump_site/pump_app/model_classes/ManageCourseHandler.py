@@ -16,10 +16,10 @@ class ManageCourseHandler(View):
            return HttpResponse('ciao')
 
     def setCourseInfo(self, base_name):
-        from pump_app.REST_classes.CourseCatalogViewSet import CourseCatalogViewSet
-        if HttpRequest().method == 'GET':
-            print 'ciao'
-        return CourseCatalogViewSet
+        from pump_app.REST_classes.CourseViewSet import CourseViewSet
+        #if HttpRequest().method == 'GET':
+            # print 'ciao'
+        return CourseViewSet
 
     def addLesson(self, aWeekDay, aStartTime, aEndTime, aTrainer, aFrequency):
         pass
