@@ -11,11 +11,13 @@ class Course(models.Model):
 
     description = models.TextField(null=True, blank=False)
 
-    open = models.NullBooleanField(null=True, default=False)
+    open = models.BooleanField(null=False, default=False)
 
     startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
+
+    confirmed = models.BooleanField(null=False, default=False)
 
     if open:
         coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, related_name='Activatedcourses')

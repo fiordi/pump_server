@@ -1,6 +1,5 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404, HttpRequest
 from django.views.generic import View
-from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,19 +11,15 @@ class ManageCourseHandler(View):
            from Course import Course
            from CourseCatalog import CourseCatalog
            course = Course().createCourse(open = False)
-           coursecatalog = CourseCatalog() # to be continued
+           coursecatalog = CourseCatalog.objects.get() # to be continued
            coursecatalog.addCourse(course)
            return HttpResponse('ciao')
 
-    def setCourseInfo(self, request):
-        if request.method == 'POST':
-            from pump_app.model_classes.Course import Course
-            from pump_app.REST_classes.CourseSerializer import CourseSerializer
-            serializer = CourseSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def setCourseInfo(self, base_name):
+        from pump_app.REST_classes.CourseCatalogViewSet import CourseCatalogViewSet
+        if HttpRequest().method == 'GET':
+            print 'ciao'
+        return CourseCatalogViewSet
 
     def addLesson(self, aWeekDay, aStartTime, aEndTime, aTrainer, aFrequency):
         pass
