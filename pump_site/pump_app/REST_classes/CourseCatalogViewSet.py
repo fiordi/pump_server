@@ -1,10 +1,10 @@
 from pump_app.model_classes.CourseCatalog import CourseCatalog
 from rest_framework import viewsets
-from pump_app.REST_classes.CourseCatalogModelSerializer import CourseCatalogModelSerializer
+from pump_app.REST_classes.CourseCatalogSerializer import CourseCatalogSerializer
 
 class CourseCatalogViewSet(viewsets.ModelViewSet):
 	queryset = CourseCatalog.objects.all()
 
-	serializer_class = CourseCatalogModelSerializer
+	serializer_class = CourseCatalogSerializer
 
 
