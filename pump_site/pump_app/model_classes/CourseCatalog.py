@@ -12,8 +12,9 @@ class CourseCatalog(SingletonModel):
 		Course.save()
 
 	def activateCourse(self, Course):
-		Course.activated = True
-		Course.save()
+		if Course.confirmed:
+			Course.activated = True
+			Course.save()
 
 	def __unicode__(self):
 		return self.name

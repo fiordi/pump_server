@@ -37,6 +37,11 @@ class Course(models.Model):
         self.open = open
         self.startDate = startDate
         self.endDate = endDate
+        self.confirmed = False
+        self.save()
+
+    def saveCourse(self):
+        self.confirmed = True
         self.save()
 
 
@@ -46,13 +51,11 @@ class Course(models.Model):
 
         while startDate <= endDate:
             lesson = Lesson().makeNewLesson()
+            lesson.course = self
 
             lesson.setLessonInfo(startDate, startTime, endTime)
             startDate = startDate + datetime.timedelta(days=frequency)
 
-
-    def setInfo(self, aName, aDescription, aOpen, aStartDate, aEndDate):
-        pass
 
     def __unicode__(self):
         return self.name + '(' + str(self.id) + ')'
