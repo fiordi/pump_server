@@ -8,8 +8,8 @@ class CourseSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Course
 
-		user = User.objects.get(username='federico')
-		if user.has_perm('pump_app.change_course'):
+		#user = User.objects.get(username='federico')
+		#if user.has_perm('pump_app.change_course'):
 			fields = ('id', 'name', 'description', 'open', 'startDate', 'endDate', 'coursecatalog')
-		else:
-			fields = ('id', 'name', 'description', 'open', 'startDate', 'endDate')
+		#else:
+			#fields = ('id', 'name', 'description', 'open', 'startDate', 'endDate')
