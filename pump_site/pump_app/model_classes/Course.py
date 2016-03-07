@@ -13,16 +13,18 @@ class Course(models.Model):
 
     open = models.BooleanField(null=False, default=False)
 
+    activated = models.BooleanField(null=False, default=False)
+
     startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     confirmed = models.BooleanField(null=False, default=False)
 
-    if open:
-        coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, related_name='Activatedcourses')
+    if activated:
+        coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='activatedcourses')
     else:
-        coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, related_name='Dectivatedcourses')
+        coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='deactivatedcourses')
 
     def createCourse(self, open):
         self.open = open

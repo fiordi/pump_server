@@ -34,4 +34,4 @@ class ManageCourseHandler(View):
            course = Course.objects.get(pk = id_course)
            coursecatalog = CourseCatalog.objects.get()
            coursecatalog.activateCourse(course)
-           return HttpResponse(id_course)
+           return HttpResponse(coursecatalog.activatedcourses.count())
