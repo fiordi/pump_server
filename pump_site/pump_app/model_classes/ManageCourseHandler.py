@@ -21,8 +21,18 @@ class ManageCourseHandler(View):
             # print 'ciao'
         return CourseViewSet
 
-    def addLesson(self, aWeekDay, aStartTime, aEndTime, aTrainer, aFrequency):
-        pass
+    def addLesson(self, request):
+        if request.method == 'GET':
+            from pump_app.model_classes.Course import Course
+            import datetime
+            startDate = datetime.datetime.strptime(request.GET.get('startDate', ''), "%d %b %y")
+            endDate = datetime.datetime.strptime(request.GET.get('endDate', ''), "%d %b %y")
+            startTime = datetime.datetime.strptime(request.GET.get('startTime', ''), "%H:%M")
+            endTime = datetime.datetime.strptime(request.GET.get('endTime', ''), "%H:%M")
+            frequency = int(request.GET.get('frequency', ''))
+            course = Course.objects.get(pk=14)
+            course.addLesson(startDate, endDate, startTime, endTime, frequency)
+            return HttpResponse(str(startDate) + str(endDate) + str(startTime) + str(endTime))
 
     def saveCourse(self):
         pass
