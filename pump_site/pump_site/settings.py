@@ -42,6 +42,35 @@ INSTALLED_APPS = [
     'pump_app',
 ]
 
+##CROSS DOMAIN REQUEST SETTINGS (TO BE DELETED WHEN DEBUG IS FINISHED!)
+
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_REGEX_WHITELIST = ('^(http?://)?localhost:$')
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+)
+
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+    'Access-Control-Allow-Origin'
+)
+
+##CROSS DOMAIN REQUEST SETTINGS END
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.DjangoModelPermissions',) # da definire!!!!
 }
