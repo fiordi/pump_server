@@ -12,7 +12,7 @@ class CourseCatalog(SingletonModel):
 		Course.save()
 
 	def activateCourse(self, Course):
-		Course.open = True
+		Course.activated = True
 		Course.save()
 
 	def __unicode__(self):
