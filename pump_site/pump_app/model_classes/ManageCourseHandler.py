@@ -30,12 +30,17 @@ class ManageCourseHandler(View):
             startTime = datetime.datetime.strptime(request.GET.get('startTime', ''), "%H:%M")
             endTime = datetime.datetime.strptime(request.GET.get('endTime', ''), "%H:%M")
             frequency = int(request.GET.get('frequency', ''))
-            course = Course.objects.get(pk=14)
+            idCourse = request.GET.get('idCourse', '')
+            course = Course.objects.get(pk=idCourse)
             course.addLesson(startDate, endDate, startTime, endTime, frequency)
             return HttpResponse(str(startDate) + str(endDate) + str(startTime) + str(endTime))
 
-    def saveCourse(self):
-        pass
+    def saveCourse(self, request):
+        if request.method == 'GET':
+            from pump_app.model_classes.Course import Course
+            idCourse = request.GET.get('idCourse', '')
+            course = Course.objects.get(pk=idCourse)
+            course.saveCourse()
 
     def activateCourse(self, request, id_course):
        if request.method == 'GET':
