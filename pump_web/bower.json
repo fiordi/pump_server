@@ -1,21 +1,28 @@
 {
   "name": "pump-web",
-  "private": true,
+  "version": "0.0.0",
   "dependencies": {
-    "bootstrap": "~3.3.5"
+    "angular": "^1.4.0",
+    "bootstrap": "^3.2.0",
+    "angular-animate": "^1.4.0",
+    "angular-cookies": "^1.4.0",
+    "angular-resource": "^1.4.0",
+    "angular-route": "^1.4.0",
+    "angular-sanitize": "^1.4.0",
+    "angular-touch": "^1.4.0"
   },
+  "devDependencies": {
+    "angular-mocks": "^1.4.0"
+  },
+  "appPath": "app",
+  "moduleName": "pumpWebApp",
   "overrides": {
     "bootstrap": {
       "main": [
         "less/bootstrap.less",
         "dist/css/bootstrap.css",
-        "dist/js/bootstrap.js",
-        "dist/fonts/*"
+        "dist/js/bootstrap.js"
       ]
     }
-  },
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^2.4.5"
   }
 }
