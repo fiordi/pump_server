@@ -21,6 +21,8 @@ class Course(models.Model):
 
     confirmed = models.BooleanField(null=False, default=False)
 
+    description = models.TextField(null=True, blank=False)
+
     if activated:
         coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='activatedcourses')
     else:
@@ -31,13 +33,14 @@ class Course(models.Model):
         self.save()
         return self
 
-    def setInfo(self, name, description, open, startDate, endDate):
+    def setInfo(self, name, description, open, startDate, endDate, color):
         self.name = name
         self.description = description
         self.open = open
         self.startDate = startDate
         self.endDate = endDate
         self.confirmed = False
+        self.color = color
         self.save()
 
     def saveCourse(self):

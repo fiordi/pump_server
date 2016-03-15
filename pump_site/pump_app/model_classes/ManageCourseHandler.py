@@ -3,6 +3,8 @@ from django.views.generic import View
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
 
 class ManageCourseHandler(View):
 
@@ -13,7 +15,8 @@ class ManageCourseHandler(View):
            course = Course().createCourse(open = False)
            coursecatalog = CourseCatalog.objects.get() # to be continued
            coursecatalog.addCourse(course)
-           return HttpResponse('ciao')
+           last_id_course_added = Course.objects.latest('id').id
+           return HttpResponse(last_id_course_added)
 
     def setCourseInfo(self, base_name):
         from pump_app.REST_classes.CourseViewSet import CourseViewSet
