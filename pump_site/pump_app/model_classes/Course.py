@@ -33,10 +33,11 @@ class Course(models.Model):
         self.save()
         return self
 
-    def setInfo(self, name, description, open, startDate, endDate, color):
+    def setInfo(self, name, description, open, activated, startDate, endDate, color):
         self.name = name
         self.description = description
         self.open = open
+        self.activated = activated
         self.startDate = startDate
         self.endDate = endDate
         self.confirmed = False
