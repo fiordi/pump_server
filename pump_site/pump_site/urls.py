@@ -40,6 +40,8 @@ from pump_app.REST_classes.CourseCatalogViewSet import CourseCatalogViewSet
 
 router = routers.DefaultRouter()
 router.register(r'course', ManageCourseHandler().setCourseInfo(base_name='course'))
+router.register(r'lesson', ManageCourseHandler().setLessonInfo(base_name='lesson'))
+
 
 urlpatterns.extend([
     url(r'^rest/', include(router.urls)),

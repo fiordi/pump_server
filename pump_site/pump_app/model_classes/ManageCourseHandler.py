@@ -24,6 +24,11 @@ class ManageCourseHandler(View):
             # print 'ciao'
         return CourseViewSet
 
+    def setLessonInfo(self, base_name):
+        from pump_app.REST_classes.LessonViewSet import LessonViewSet
+        #if HttpRequest().method == 'GET':
+        return LessonViewSet
+
     def addLesson(self, request):
         if request.method == 'GET':
             from pump_app.model_classes.Course import Course
