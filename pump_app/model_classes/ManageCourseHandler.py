@@ -30,7 +30,7 @@ class ManageCourseHandler(View):
         return LessonViewSet
 
     def addLesson(self, request):
-        if request.method == 'GET':
+        if request.method == 'POST':
             from pump_app.model_classes.Course import Course
             import datetime
             startDate = datetime.datetime.strptime(request.GET.get('startDate', ''), "%d %b %y")
