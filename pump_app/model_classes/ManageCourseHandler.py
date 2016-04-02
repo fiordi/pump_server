@@ -35,13 +35,33 @@ class ManageCourseHandler(View):
         if request.method == 'POST':
             from pump_app.model_classes.Course import Course
             import datetime
+            #associo ad una lista i dati in arrivo dalla richiesta POST
             lesson = json.loads(request.body)
+
+            #converto in oggetti datetime le stringe della richiesta POST
             startDate = datetime.datetime.strptime(lesson['startDate'], "%Y-%m-%d")
             endDate = datetime.datetime.strptime(lesson['endDate'], "%Y-%m-%d")
             startTime = datetime.datetime.strptime(lesson['startTime'], "%H:%M")
             endTime = datetime.datetime.strptime(lesson['endTime'], "%H:%M")
             frequency = int(lesson['frequency'])
+
+            #controllo il giorno della settimana in cui inizia il corso
+            startWeekDay = startDate.isoweekday()
+
+            #estraggo il giorno della settimana in cui si ripete il corso
+            weekDayOfLesson = int(lesson['weekDayOfLesson'])
+
+            #sincronizzo la startDate con il WeekDayOfLesson
+            if(startWeekDay > weekDayOfLesson):
+                deltaDays = (7-startWeekDay) + weekDayOfLesson
+            else:
+                deltaDays = weekDayOfLesson - startWeekDay
+            startDate = startDate + datetime.timedelta(days = deltaDays )
+
+            #leggo l'id del corso a cui devono essere associate le lezioni
             idCourse = lesson['idCourse']
+
+            #recupero il corso a cui devono essere associate le lezioni e procedo con l'aggiunta
             course = Course.objects.get(pk=idCourse)
             course.addLesson(startDate, endDate, startTime, endTime, frequency)
             return HttpResponse(request.POST.get('startDate', ''))
