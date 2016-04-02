@@ -13,10 +13,11 @@ class ManageCourseHandler(View):
        if request.method == 'GET':
            from Course import Course
            from CourseCatalog import CourseCatalog
-           course = Course().createCourse(open = False)
+           course = Course().createCourse(closed = False)
            coursecatalog = CourseCatalog.objects.get() # to be continued
            coursecatalog.addCourse(course)
-           last_id_course_added = Course.objects.latest('id').id
+           last_id_course_added =\
+               Course.objects.latest('id').id
            return HttpResponse(last_id_course_added)
 
     def setCourseInfo(self, base_name):
