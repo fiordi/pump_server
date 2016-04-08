@@ -9,5 +9,5 @@ class SingleLessonSerializer(serializers.ModelSerializer):
 		model = SingleLesson
 
 
-		fields = ('id', 'name', 'date', 'startTime', 'endTime', 'course', 'repeatedlesson')
+		fields = ('id', 'date', 'startTime', 'endTime', 'course', 'repeatedlesson')
 

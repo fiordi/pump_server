@@ -73,7 +73,8 @@ CORS_ALLOW_HEADERS = (
 ##CROSS DOMAIN REQUEST SETTINGS END
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.DjangoModelPermissions',) # da definire!!!!
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.DjangoModelPermissions',), # da definire!!!!
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 }
 
 MIDDLEWARE_CLASSES = [
