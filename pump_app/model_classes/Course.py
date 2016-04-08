@@ -51,15 +51,9 @@ class Course(models.Model):
 
 
     # startDate e endDate sono degli oggetti di tipo datetime
-    def addLesson(self, startDate, endDate, startTime, endTime, frequency):
-        from pump_app.model_classes.Lesson import Lesson
-
-        while startDate <= endDate:
-            lesson = Lesson().makeNewLesson()
-            lesson.course = self
-
-            lesson.setLessonInfo(startDate, startTime, endTime)
-            startDate = startDate + datetime.timedelta(days=frequency)
+    def addLesson(self, startDate, endDate, startTime, endTime, frequency, weekDayOfLesson):
+        from pump_app.model_classes.LessonFactory import LessonFactory
+        LessonFactory().createLesson(self, startDate, endDate, startTime, endTime, frequency, weekDayOfLesson)
 
 
     def __unicode__(self):

@@ -27,7 +27,7 @@ class ManageCourseHandler(View):
         return CourseViewSet
 
     def setLessonInfo(self, base_name):
-        from pump_app.REST_classes.LessonViewSet import LessonViewSet
+        from pump_app.REST_classes.SingleLessonViewSet import LessonViewSet
         #if HttpRequest().method == 'GET':
         return LessonViewSet
 
@@ -45,26 +45,18 @@ class ManageCourseHandler(View):
             endTime = datetime.datetime.strptime(lesson['endTime'], "%H:%M")
             frequency = int(lesson['frequency'])
 
-            #controllo il giorno della settimana in cui inizia il corso
-            startWeekDay = startDate.isoweekday()
-
-            #estraggo il giorno della settimana in cui si ripete il corso
-            weekDayOfLesson = int(lesson['weekDayOfLesson'])
-
-            #sincronizzo la startDate con il WeekDayOfLesson
-            if(startWeekDay > weekDayOfLesson):
-                deltaDays = (7-startWeekDay) + weekDayOfLesson
+            if 'weekDayOfLesson' in lesson.keys():
+                weekDayOfLesson = int(lesson['weekDayOfLesson'])
             else:
-                deltaDays = weekDayOfLesson - startWeekDay
-            startDate = startDate + datetime.timedelta(days = deltaDays )
+                weekDayOfLesson = None
 
             #leggo l'id del corso a cui devono essere associate le lezioni
             idCourse = lesson['idCourse']
 
             #recupero il corso a cui devono essere associate le lezioni e procedo con l'aggiunta
             course = Course.objects.get(pk=idCourse)
-            course.addLesson(startDate, endDate, startTime, endTime, frequency)
-            return HttpResponse(request.POST.get('startDate', ''))
+            course.addLesson(startDate, endDate, startTime, endTime, frequency, weekDayOfLesson)
+            return HttpResponse(weekDayOfLesson)
 
     def saveCourse(self, request):
         if request.method == 'GET':
