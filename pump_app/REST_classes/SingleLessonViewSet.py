@@ -1,5 +1,6 @@
+import django_filters
 from pump_app.model_classes.SingleLesson import SingleLesson
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, filters
 from pump_app.REST_classes.SingleLessonSerializer import SingleLessonSerializer
 
 
@@ -8,3 +9,5 @@ class SingleLessonViewSet(viewsets.ModelViewSet):
 
 	queryset = SingleLesson.objects.all()
 	serializer_class = SingleLessonSerializer
+	filter_backends = (filters.DjangoFilterBackend,)
+	filter_fields = ('repeatedlesson')

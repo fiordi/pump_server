@@ -3,3 +3,7 @@ from pump_app.model_classes.Course import Course
 from pump_app.model_classes.SingleLesson import SingleLesson
 from pump_app.model_classes.RepeatedLesson import RepeatedLesson
 from pump_app.model_classes.Trainer import Trainer
+from pump_app.model_classes.Activated import Activated
+from pump_app.model_classes.Deactivated import Deactivated
+from pump_app.model_classes.Incomplete import Incomplete
+from pump_app.model_classes.Trashed import Trashed

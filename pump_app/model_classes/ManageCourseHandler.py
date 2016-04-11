@@ -13,7 +13,10 @@ class ManageCourseHandler(View):
        if request.method == 'GET':
            from Course import Course
            from CourseCatalog import CourseCatalog
+           from pump_app.model_classes.Deactivated import Deactivated
            course = Course().createCourse(closed = False)
+           deactivated = Deactivated()
+           deactivated.setCourseState(course)
            coursecatalog = CourseCatalog.objects.get() # to be continued
            coursecatalog.addCourse(course)
            last_id_course_added =\
@@ -73,3 +76,14 @@ class ManageCourseHandler(View):
            coursecatalog = CourseCatalog.objects.get()
            coursecatalog.activateCourse(course)
            return HttpResponse(coursecatalog.activatedcourses.count())
+
+    def debug(self, request):
+        if request.method == 'GET':
+            from pump_app.model_classes.Course import Course
+            from pump_app.model_classes.Activated import Activated
+
+            id_course = request.GET.get('id_course', '')
+            activated = Activated()
+            course = Course.objects.get(pk = id_course)
+            activated.setCourseState(course)
+            return HttpResponse(id_course)

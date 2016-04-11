@@ -19,7 +19,6 @@ from pump_app.views import Debug
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^debug/', Debug.as_view()),
 ]
 
 #requests for ManageCourseHandler controller
@@ -29,7 +28,8 @@ urlpatterns.extend([
     url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
     url(r'^course/activatecourse/(\w+)/$', ManageCourseHandler().activateCourse),
     url(r'^lesson/addlesson', ManageCourseHandler().addLesson),
-    url(r'^lesson/savecourse/(\w+)/$', ManageCourseHandler().saveCourse)
+    url(r'^lesson/savecourse/(\w+)/$', ManageCourseHandler().saveCourse),
+    url(r'^debug', ManageCourseHandler().debug)
 ])
 
 

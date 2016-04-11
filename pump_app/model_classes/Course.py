@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
 from pump_app.model_classes.CourseCatalog import CourseCatalog
+from pump_app.model_classes.State import State
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 import datetime
 
 
@@ -15,30 +18,25 @@ class Course(models.Model):
 
     subscrNumber = models.IntegerField(null=False, default=False)
 
-    activated = models.BooleanField(null=False, default=False)
-
     startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
-    confirmed = models.BooleanField(null=False, default=False)
+    content_type_state = models.ForeignKey(ContentType, null=True, blank=True, related_name="contentTypes_Courses")
 
+    object_id_state = models.PositiveIntegerField(null=True)
 
-    if activated:
-        coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='activatedcourses')
-    else:
-        coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='deactivatedcourses')
+    state = GenericForeignKey('content_type_state', 'object_id_state')
 
     def createCourse(self, closed):
         self.closed = closed
         self.save()
         return self
 
-    def setInfo(self, name, description, closed, activated, startDate, endDate, color):
+    def setInfo(self, name, description, closed, startDate, endDate, color):
         self.name = name
         self.description = description
         self.closed = closed
-        self.activated = activated
         self.startDate = startDate
         self.endDate = endDate
         self.confirmed = False
