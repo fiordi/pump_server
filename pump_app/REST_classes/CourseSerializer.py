@@ -10,6 +10,6 @@ class CourseSerializer(serializers.ModelSerializer):
 
 		#user = User.objects.get(username='federico')
 		#if user.has_perm('pump_app.change_course'):
-		fields = ('id', 'name', 'description', 'closed', 'subscrNumber', 'activated', 'startDate', 'endDate', 'coursecatalog')
+		fields = ('id', 'name', 'description', 'closed', 'subscrNumber', 'startDate', 'endDate', 'coursecatalog', 'state')
 		#else:
 			#fields = ('id', 'name', 'description', 'open', 'startDate', 'endDate')
