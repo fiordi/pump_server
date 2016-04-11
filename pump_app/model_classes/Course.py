@@ -28,6 +28,8 @@ class Course(models.Model):
 
     state = GenericForeignKey('content_type_state', 'object_id_state')
 
+    coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='courses')
+
     def createCourse(self, closed):
         self.closed = closed
         self.save()
