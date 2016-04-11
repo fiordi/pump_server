@@ -7,5 +7,4 @@ class Trashed(SingletonModel, State):
 
     def setCourseState(self, Course):
         Course.state = self
-        Course.save()
 

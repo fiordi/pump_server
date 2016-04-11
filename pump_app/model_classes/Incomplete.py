@@ -7,5 +7,4 @@ class Incomplete(SingletonModel, State):
 
     def setCourseState(self, Course):
         Course.state = self
-        Course.save()
 

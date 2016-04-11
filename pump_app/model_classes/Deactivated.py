@@ -7,5 +7,4 @@ class Deactivated(SingletonModel, State):
 
     def setCourseState(self, Course):
         Course.state = self
-        Course.save()
 

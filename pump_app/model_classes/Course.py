@@ -53,6 +53,9 @@ class Course(models.Model):
         from pump_app.model_classes.LessonFactory import LessonFactory
         LessonFactory().createLesson(self, startDate, endDate, startTime, endTime, frequency, weekDayOfLesson)
 
+    def setState(self, State):
+        State.setCourseState(self)
+        self.save()
 
     def __unicode__(self):
         return self.name + '(' + str(self.id) + ')'

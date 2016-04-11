@@ -16,7 +16,7 @@ class ManageCourseHandler(View):
            from pump_app.model_classes.Deactivated import Deactivated
            course = Course().createCourse(closed = False)
            deactivated = Deactivated()
-           deactivated.setCourseState(course)
+           course.setState(deactivated)
            coursecatalog = CourseCatalog.objects.get() # to be continued
            coursecatalog.addCourse(course)
            last_id_course_added =\
