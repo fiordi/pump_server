@@ -82,13 +82,21 @@ class ManageCourseHandler(View):
            coursecatalog.activateCourse(course)
            return HttpResponse(coursecatalog.activatedcourses.count())
 
+    def getCourseState(self, request):
+        if request.method == 'GET':
+            from pump_app.model_classes.Course import Course
+
+            id_course = request.GET.get('id_course', '')
+            course = Course.objects.get(pk = id_course)
+            return HttpResponse(course.getCourseState())
+
     def debug(self, request):
         if request.method == 'GET':
             from pump_app.model_classes.Course import Course
-            from pump_app.model_classes.Activated import Activated
+            from pump_app.model_classes.Deactivated import Deactivated
 
             id_course = request.GET.get('id_course', '')
-            activated = Activated()
+            deactivated = Deactivated()
             course = Course.objects.get(pk = id_course)
-            activated.setCourseState(course)
-            return HttpResponse(id_course)
+            deactivated.setCourseState(course)
+            return HttpResponse(course.content_type_state)

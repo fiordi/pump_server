@@ -35,6 +35,9 @@ class Course(models.Model):
         self.save()
         return self
 
+    def getCourseState(self):
+        return self.content_type_state
+
     def setInfo(self, name, description, closed, startDate, endDate, color):
         self.name = name
         self.description = description
