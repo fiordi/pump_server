@@ -13,10 +13,10 @@ class ManageCourseHandler(View):
        if request.method == 'GET':
            from Course import Course
            from CourseCatalog import CourseCatalog
-           from pump_app.model_classes.Deactivated import Deactivated
+           from pump_app.model_classes.Incomplete import Incomplete
            course = Course().createCourse(closed = False)
-           deactivated = Deactivated()
-           course.setState(deactivated)
+           incomplete = Incomplete()
+           course.setState(incomplete)
            coursecatalog = CourseCatalog.objects.get() # to be continued
            coursecatalog.addCourse(course)
            last_id_course_added =\
