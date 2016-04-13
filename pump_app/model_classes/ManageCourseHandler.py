@@ -29,10 +29,15 @@ class ManageCourseHandler(View):
             # print 'ciao'
         return CourseViewSet
 
-    def setLessonInfo(self, base_name):
+    def setSingleLessonInfo(self, base_name):
         from pump_app.REST_classes.SingleLessonViewSet import SingleLessonViewSet
         #if HttpRequest().method == 'GET':
         return SingleLessonViewSet
+
+    def setRepeatedLessonInfo(self, base_name):
+        from pump_app.REST_classes.RepeatedLessonViewSet import RepeatedLessonViewSet
+        # if HttpRequest().method == 'GET':
+        return RepeatedLessonViewSet
 
     def addLesson(self, request):
         if request.method == 'POST':
