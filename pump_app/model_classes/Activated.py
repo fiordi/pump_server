@@ -7,4 +7,3 @@ class Activated(SingletonModel, State):
 
     def setCourseState(self, Course):
         Course.state = self
-

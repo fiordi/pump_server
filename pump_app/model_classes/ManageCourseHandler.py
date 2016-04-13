@@ -88,7 +88,7 @@ class ManageCourseHandler(View):
 
             id_course = request.GET.get('id_course', '')
             course = Course.objects.get(pk = id_course)
-            return HttpResponse(course.getCourseState())
+            return HttpResponse(course.getState())
 
     def debug(self, request):
         if request.method == 'GET':
