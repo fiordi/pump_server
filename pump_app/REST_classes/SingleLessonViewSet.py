@@ -10,4 +10,4 @@ class SingleLessonViewSet(viewsets.ModelViewSet):
 	queryset = SingleLesson.objects.all()
 	serializer_class = SingleLessonSerializer
 	filter_backends = (filters.DjangoFilterBackend,)
-	filter_fields = ('startTime', 'course' )
+	filter_fields = ('id', 'date', 'course')
