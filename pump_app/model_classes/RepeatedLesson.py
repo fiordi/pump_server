@@ -30,4 +30,4 @@ class RepeatedLesson(models.Model):
         self.save()
 
     def __unicode__(self):
-        return str(self.startDate) + " " +  str(self.endDate)
+        return str(self.startDate) + " " +  str(self.endDate) + "(" + str(self.pk) + ")"

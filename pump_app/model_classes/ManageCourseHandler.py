@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
+from copy import deepcopy
 import json
 
 class ManageCourseHandler(View):
@@ -86,9 +87,57 @@ class ManageCourseHandler(View):
         if request.method == 'GET':
             from pump_app.model_classes.Course import Course
 
-            id_course = request.GET.get('id_course', '')
-            course = Course.objects.get(pk = id_course)
+            courseID = request.GET.get('courseID', '')
+            course = Course.objects.get(pk = courseID)
             return HttpResponse(course.getState())
+
+    def modifyCourse(self, request):
+        if request.method == 'GET':
+            from pump_app.model_classes.Course import Course
+            from pump_app.model_classes.RepeatedLesson import RepeatedLesson
+            from pump_app.model_classes.SingleLesson import SingleLesson
+            from pump_app.model_classes.Incomplete import Incomplete
+
+            courseID = request.GET.get('courseID', '')
+
+            #recupero il corso da modificare e lo duplico
+            courseNotModified = Course.objects.get(pk = courseID)
+            course = deepcopy(courseNotModified)
+            course.pk = None
+
+            #setto lo stato del corso duplicato come Incompleto
+            incomplete = Incomplete()
+            course.setState(incomplete)
+            course.save()
+
+            #cerco tutte le repeatedLessons legate al courseNotModified e le duplico sul nuovo course
+            repeatedlessonsNotModified = RepeatedLesson.objects.filter(course = courseNotModified)
+            repeatedlessons = deepcopy(repeatedlessonsNotModified)
+            for repeatedlesson in repeatedlessons:
+                #cerco tutte le singleLessons legate alla repeatedLessons e le associo alla repeatedLesson duplicata
+                singlelessonsNotModified = SingleLesson.objects.filter(repeatedlesson = repeatedlesson)
+                singlelessons = deepcopy(singlelessonsNotModified)
+
+                #la repeatedlesson duplicata va salvata dopo aver recuperato le singlelessons (altrimenti si perde l'associazione)
+                #ma prima del salvataggio della singlelesson (altrimenti la singlelesson viene associata al repeatedCourseNotModified)
+                repeatedlesson.pk = None
+                repeatedlesson.course = course
+                repeatedlesson.save()
+                for singlelesson in singlelessons:
+                    singlelesson.pk = None
+                    singlelesson.repeatedlesson = repeatedlesson
+                    singlelesson.save()
+
+            #cerco tutte le singleLessons legate direttamente al courseNotModified e le duplico sul nuovo course
+            singlelessonsNotModified = SingleLesson.objects.filter(course = courseNotModified)
+            singlelessons = deepcopy(singlelessonsNotModified)
+            for singlelesson in singlelessons:
+                    singlelesson.pk = None
+                    singlelesson.course = course
+                    singlelesson.save()
+            return HttpResponse(course.pk)
+
+
 
     def debug(self, request):
         if request.method == 'GET':

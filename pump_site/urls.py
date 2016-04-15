@@ -30,6 +30,7 @@ urlpatterns.extend([
     url(r'^course/getCourseState', ManageCourseHandler().getCourseState),
     url(r'^lesson/addlesson', ManageCourseHandler().addLesson),
     url(r'^lesson/savecourse/(\w+)/$', ManageCourseHandler().saveCourse),
+    url(r'^course/modifycourse', ManageCourseHandler().modifyCourse),
     url(r'^debug', ManageCourseHandler().debug)
 ])
 
