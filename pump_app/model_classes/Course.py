@@ -30,8 +30,7 @@ class Course(models.Model):
 
     coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='courses')
 
-    def createCourse(self, closed):
-        self.closed = closed
+    def createCourse(self):
         self.save()
         return self
 

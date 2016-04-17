@@ -1,4 +1,5 @@
 from django.db import models
+from solo.models import SingletonModel
 
 class State(models.Model):
 
@@ -7,4 +8,64 @@ class State(models.Model):
 
     class Meta:
 		abstract = True
+
+
+
+class Activated(SingletonModel, State):
+    id = models.AutoField(primary_key=True)
+
+    def setCourseState(self, Course):
+        #la classe SingletonModel non assegna la pk all'oggetto. Le genericForeignKey tuttavia basano il loro funzionamento su di
+        #esso, pertanto viene settato manualmente
+        self.id = 1
+        self.save()
+
+        Course.state = self
+
+
+
+
+class Deactivated(SingletonModel, State):
+    id = models.AutoField(primary_key=True)
+
+    rif = None
+
+    def setCourseState(self, Course):
+        #la classe SingletonModel non assegna la pk all'oggetto. Le genericForeignKey tuttavia basano il loro funzionamento su di
+        #esso, pertanto viene settato manualmente
+        self.id = 1
+        self.save()
+
+        Course.state = self
+
+
+
+
+
+class Incomplete(SingletonModel, State):
+    id = models.AutoField(primary_key=True)
+
+    def setCourseState(self, Course):
+        #la classe SingletonModel non assegna la pk all'oggetto. Le genericForeignKey tuttavia basano il loro funzionamento su di
+        #esso, pertanto viene settato manualmente
+        self.id = 1
+        self.save()
+
+        Course.state = self
+
+
+
+
+
+
+class Trashed(SingletonModel, State):
+    id = models.AutoField(primary_key=True)
+
+    def setCourseState(self, Course):
+        #la classe SingletonModel non assegna la pk all'oggetto. Le genericForeignKey tuttavia basano il loro funzionamento su di
+        #esso, pertanto viene settato manualmente
+        self.id = 1
+        self.save()
+        Course.state = self
+
 

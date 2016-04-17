@@ -14,7 +14,7 @@ class ManageCourseHandler(View):
        if request.method == 'GET':
            from Course import Course
            from CourseCatalog import CourseCatalog
-           from pump_app.model_classes.Incomplete import Incomplete
+           from pump_app.model_classes.State import Incomplete
            course = Course().createCourse(closed = False)
            incomplete = Incomplete()
            course.setState(incomplete)
@@ -141,11 +141,7 @@ class ManageCourseHandler(View):
 
     def debug(self, request):
         if request.method == 'GET':
-            from pump_app.model_classes.Course import Course
-            from pump_app.model_classes.Deactivated import Deactivated
+            from pump_app.model_classes.utility.Utility import Utility
 
-            id_course = request.GET.get('id_course', '')
-            deactivated = Deactivated()
-            course = Course.objects.get(pk = id_course)
-            deactivated.setCourseState(course)
-            return HttpResponse(course.content_type_state)
+            state = Utility().str_to_class("Activated")
+            return HttpResponse(str(state))
