@@ -15,7 +15,7 @@ class ManageCourseHandler(View):
            from Course import Course
            from CourseCatalog import CourseCatalog
            from pump_app.model_classes.State import Incomplete
-           course = Course().createCourse(closed = False)
+           course = Course().createCourse()
            incomplete = Incomplete()
            course.setState(incomplete)
            coursecatalog = CourseCatalog.objects.get() # to be continued
@@ -47,7 +47,7 @@ class ManageCourseHandler(View):
             #associo ad una lista i dati in arrivo dalla richiesta POST
             lesson = json.loads(request.body)
 
-            #converto in oggetti datetime le stringe della richiesta POST
+            #converto in oggetti datetime le stringhe della richiesta POST
             startDate = datetime.datetime.strptime(lesson['startDate'], "%Y-%m-%d")
             endDate = datetime.datetime.strptime(lesson['endDate'], "%Y-%m-%d")
             startTime = datetime.datetime.strptime(lesson['startTime'], "%H:%M")
