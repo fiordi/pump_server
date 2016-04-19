@@ -102,6 +102,7 @@ class Course(models.Model):
                 singlelesson.pk = None
                 singlelesson.course = course
                 singlelesson.save()
+
         return course
 
 
