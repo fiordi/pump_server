@@ -1,5 +1,5 @@
 from pump_app.model_classes.Course import Course
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, filters, generics
 from pump_app.REST_classes.CourseSerializer import CourseSerializer
 
 

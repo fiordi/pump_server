@@ -14,6 +14,8 @@ class State(models.Model):
 class Activated(SingletonModel, State):
     id = models.AutoField(primary_key=True)
 
+    verbose_name = models.CharField(max_length=200, null=True, verbose_name="Incomplete")
+
     def setCourseState(self, Course):
         #la classe SingletonModel non assegna la pk all'oggetto. Le genericForeignKey tuttavia basano il loro funzionamento su di
         #esso, pertanto viene settato manualmente
@@ -28,7 +30,7 @@ class Activated(SingletonModel, State):
 class Deactivated(SingletonModel, State):
     id = models.AutoField(primary_key=True)
 
-    rif = None
+    verbose_name = models.CharField(max_length=200, null=True, verbose_name="Incomplete")
 
     def setCourseState(self, Course):
         #la classe SingletonModel non assegna la pk all'oggetto. Le genericForeignKey tuttavia basano il loro funzionamento su di
@@ -45,6 +47,8 @@ class Deactivated(SingletonModel, State):
 class Incomplete(SingletonModel, State):
     id = models.AutoField(primary_key=True)
 
+    verbose_name = models.CharField(max_length=200, null=True, verbose_name="Incomplete")
+
     def setCourseState(self, Course):
         #la classe SingletonModel non assegna la pk all'oggetto. Le genericForeignKey tuttavia basano il loro funzionamento su di
         #esso, pertanto viene settato manualmente
@@ -58,8 +62,11 @@ class Incomplete(SingletonModel, State):
 
 
 
+
 class Trashed(SingletonModel, State):
     id = models.AutoField(primary_key=True)
+
+    verbose_name = models.CharField(max_length=200, null=True, verbose_name="Incomplete")
 
     def setCourseState(self, Course):
         #la classe SingletonModel non assegna la pk all'oggetto. Le genericForeignKey tuttavia basano il loro funzionamento su di
