@@ -7,7 +7,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 import datetime
 
-
+"""
+Course Class
+"""
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
 
@@ -31,37 +33,69 @@ class Course(models.Model):
 
     coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='courses')
 
+
+    """
+    It creates a new instance of Course and saves it into db
+    """
     def createCourse(self):
         self.save()
         return self
 
+    """
+    It returns the Object State related to the current Course instance
+    """
     def getState(self):
         return self.content_type_state
 
-    def setInfo(self, name, description, closed, startDate, endDate, color):
+    """
+    It sets the arguments of the current Course instance
+    """
+    def setInfo(self, name, description, closed, startDate, endDate):
         self.name = name
         self.description = description
         self.closed = closed
         self.startDate = startDate
         self.endDate = endDate
         self.confirmed = False
-        self.color = color
         self.save()
 
+    """
+    It saves the current course instance into db
+    """
     def saveCourse(self):
         self.confirmed = True
         self.save()
 
 
+    """
+    It adds lessons to the current Course instance.
+
+    startDate => dateTime
+    endDate => dateTime
+    startTime => dateTime
+    endTime => dateTime
+    frequency => int (deltadays between two repeated lessons)
+    weekDayOfLesson => int (ISO value of the days)
+    """
     # startDate e endDate sono degli oggetti di tipo datetime
     def addLesson(self, startDate, endDate, startTime, endTime, frequency, weekDayOfLesson):
         from pump_app.model_classes.LessonFactory import LessonFactory
         LessonFactory().createLesson(self, startDate, endDate, startTime, endTime, frequency, weekDayOfLesson)
 
+
+    """
+    It sets a State to the current Course instance
+
+    State = State()
+    """
     def setState(self, State):
         State.setCourseState(self)
         self.save()
 
+
+    """
+    It clones the current Course instance with the related objects
+    """
     def clone(self):
         from pump_app.model_classes.RepeatedLesson import RepeatedLesson
         from pump_app.model_classes.SingleLesson import SingleLesson
@@ -104,7 +138,6 @@ class Course(models.Model):
                 singlelesson.save()
 
         return course
-
 
 
     def __unicode__(self):

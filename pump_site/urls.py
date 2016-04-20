@@ -26,11 +26,9 @@ from pump_app.views import ManageCourseHandler
 
 urlpatterns.extend([
     url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
-    url(r'^course/activatecourse/(\w+)/$', ManageCourseHandler().activateCourse),
     url(r'^course/getCourseState', ManageCourseHandler().getCourseState),
     url(r'^course/modifycourse', ManageCourseHandler().modifyCourse),
     url(r'^lesson/addlesson', ManageCourseHandler().addLesson),
-    url(r'^lesson/savecourse/(\w+)/$', ManageCourseHandler().saveCourse),
     url(r'^debug', ManageCourseHandler().debug)
 ])
 

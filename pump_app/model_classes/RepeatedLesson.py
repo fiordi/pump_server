@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from django.db import models
 from pump_app.model_classes.Course import Course
 
+"""
+RepeatedLesson Class
+"""
 class RepeatedLesson(models.Model):
     id = models.AutoField(primary_key=True)
 
@@ -17,10 +20,18 @@ class RepeatedLesson(models.Model):
 
     course = models.ForeignKey(Course, null=True, blank=True, related_name='RepeatedLessons')
 
+    """
+    It creates a new instance of RepeatedLesson and save it into db
+
+    :return RepeatedLesson()
+    """
     def makeNewRepeatedLesson(self):
         self.save()
         return self
 
+    """
+    It sets the attributes of current RepeatedLesson instance
+    """
     def setLessonInfo(self, weekDay, startDate, endDate, startTime, endTime):
         self.weekDay = weekDay
         self.startDate = startDate

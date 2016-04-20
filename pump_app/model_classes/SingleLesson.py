@@ -3,6 +3,9 @@ from django.db import models
 from pump_app.model_classes.Course import Course
 from pump_app.model_classes.RepeatedLesson import RepeatedLesson
 
+"""
+SingleLesson Class
+"""
 class SingleLesson(models.Model):
     id = models.AutoField(primary_key=True)
 
@@ -16,15 +19,21 @@ class SingleLesson(models.Model):
 
     course = models.ForeignKey(Course, null=True, blank=True, related_name='single_lessons')
 
+    """
+    It creates a new instance of SingleLesson and saves it into db
+
+    :return SingleLesson()
+    """
     def makeNewSingleLesson(self):
         self.save()
         return self
-
+    """
+    It sets the attributes of current SingleLesson instance
+    """
     def setLessonInfo(self, date, startTime, endTime):
         self.date = date
         self.startTime = startTime
         self.endTime = endTime
-        #self.Trainer = Trainer
         self.save()
 
     def __unicode__(self):

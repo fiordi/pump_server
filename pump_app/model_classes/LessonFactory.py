@@ -1,8 +1,22 @@
 from django.db import models
 import datetime
 
+"""
+LessonFactory Class (Abstract)
+"""
 class LessonFactory(models.Model):
 
+    """
+    It decides if lessons must be created using RepeatedLessonFactory or SingleLessonFactory
+
+    Course => Course()
+    startDate => dateTime
+    endDate => dateTime
+    startTime => dateTime
+    endTime => dateTime
+    frequency => int
+    weekDayOfLesson => int
+    """
 	def createLesson(self, Course, startDate, endDate, startTime, endTime, frequency, weekDayOfLesson):
 
 		if (startDate == endDate):

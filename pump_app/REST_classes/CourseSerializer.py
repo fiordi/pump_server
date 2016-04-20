@@ -6,13 +6,23 @@ from pump_app.model_classes.utility.Utility import Utility
 from pump_app.libraries.generic_relations.relations import GenericRelatedField
 import json
 
+"""
+StateField Class
+"""
 class StateField(serializers.RelatedField):
 
+    """
+    It returns the name of the class as output instead of the object
+
+    value => Activated(), Deactivated(), Trashed(), Incomplete()
+    """
     def to_representation(self, value):
 
         return value.__class__.__name__
 
-
+"""
+CourseSerializer Class
+"""
 class CourseSerializer(serializers.ModelSerializer):
     state = StateField(read_only=True)
 
@@ -21,7 +31,14 @@ class CourseSerializer(serializers.ModelSerializer):
 
 		fields = ('id', 'name', 'description', 'closed', 'subscrNumber', 'startDate', 'endDate', 'coursecatalog', 'state')
 
-    #il metodo update e' stato sovrascritto per permettere la gestione dello state(genericForeignKey!)
+    """
+    It overrides the default __update()__ method of REST API in order to allow writing of state field (GenericForeignKey!)
+
+    instance => Course()
+    validated_data => Unknown
+
+    :return Course()
+    """
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)

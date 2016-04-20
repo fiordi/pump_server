@@ -2,7 +2,9 @@ from pump_app.model_classes.SingleLesson import SingleLesson
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-
+"""
+SingleLessonSerializer Class
+"""
 class SingleLessonSerializer(serializers.ModelSerializer):
 
 	class Meta:

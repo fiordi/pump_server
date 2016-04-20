@@ -8,8 +8,16 @@ from rest_framework.viewsets import ModelViewSet
 from copy import deepcopy
 import json
 
+"""
+ManageCourseHandler Class (Singleton)
+"""
 class ManageCourseHandler(View):
 
+    """
+    It manages the creation of a new Course instance
+
+    request => HttpRequest()
+    """
     def makeNewCourse(self, request):
        if request.method == 'GET':
            from Course import Course
@@ -24,22 +32,46 @@ class ManageCourseHandler(View):
                Course.objects.latest('id').id
            return HttpResponse(last_id_course_added)
 
+    """
+    It handles the CRUD of Course redirecting the request to REST FRAMEWORK
+
+    base_name => str
+
+    :return viewsets.ModelViewSet()
+    """
     def setCourseInfo(self, base_name):
         from pump_app.REST_classes.CourseViewSet import CourseViewSet
-        #if HttpRequest().method == 'GET':
-            # print 'ciao'
         return CourseViewSet
 
+    """
+    It handles the CRUD of SingleLesson redirecting the request to REST FRAMEWORK
+
+    base_name => str
+
+    :return viewsets.ModelViewSet()
+    """
     def setSingleLessonInfo(self, base_name):
         from pump_app.REST_classes.SingleLessonViewSet import SingleLessonViewSet
-        #if HttpRequest().method == 'GET':
         return SingleLessonViewSet
 
+    """
+    It handles the CRUD of a RepeatedLesson redirecting the request to REST FRAMEWORK
+
+    base_name => str
+
+    :return viewsets.ModelViewSet()
+    """
     def setRepeatedLessonInfo(self, base_name):
         from pump_app.REST_classes.RepeatedLessonViewSet import RepeatedLessonViewSet
-        # if HttpRequest().method == 'GET':
         return RepeatedLessonViewSet
 
+    """
+    It handles the creation of Lesson
+
+    request => HttpRequest()
+
+    :return HttpResponse()
+    """
     def addLesson(self, request):
         if request.method == 'POST':
             from pump_app.model_classes.Course import Course
@@ -67,22 +99,14 @@ class ManageCourseHandler(View):
             course.addLesson(startDate, endDate, startTime, endTime, frequency, weekDayOfLesson)
             return HttpResponse(weekDayOfLesson)
 
-    def saveCourse(self, request):
-        if request.method == 'GET':
-            from pump_app.model_classes.Course import Course
-            idCourse = request.GET.get('idCourse', '')
-            course = Course.objects.get(pk=idCourse)
-            course.saveCourse()
 
-    def activateCourse(self, request, id_course):
-       if request.method == 'GET':
-           from Course import Course
-           from CourseCatalog import CourseCatalog
-           course = Course.objects.get(pk = id_course)
-           coursecatalog = CourseCatalog.objects.get()
-           coursecatalog.activateCourse(course)
-           return HttpResponse(coursecatalog.activatedcourses.count())
+    """
+    It handles the request of getting the state of a Course
 
+    request => HttpRequest()
+
+    :return HttpResponse()
+    """
     def getCourseState(self, request):
         if request.method == 'GET':
             from pump_app.model_classes.Course import Course
@@ -91,6 +115,13 @@ class ManageCourseHandler(View):
             course = Course.objects.get(pk = courseID)
             return HttpResponse(course.getState())
 
+    """
+    It handles the modify of a Course
+
+    request => HttpRequest()
+
+    :return HttpResponse()
+    """
     def modifyCourse(self, request):
         if request.method == 'GET':
             from pump_app.model_classes.Course import Course
@@ -103,7 +134,13 @@ class ManageCourseHandler(View):
             return HttpResponse(courseModified.pk)
 
 
+    """
+    DEBUG METHOD! USE IT CAREFULLY!
 
+    request => HttpRequest()
+
+    :return HttpResponse()
+    """
     def debug(self, request):
         if request.method == 'GET':
             from pump_app.model_classes.utility.Utility import Utility
