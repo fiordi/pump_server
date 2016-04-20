@@ -7,7 +7,7 @@ RepeatedLessonFactory
 """
 class RepeatedLessonFactory(LessonFactory):
 
-    """
+	"""
     It creates a new RepeatedLesson instance
 
     :return RepeatedLesson()

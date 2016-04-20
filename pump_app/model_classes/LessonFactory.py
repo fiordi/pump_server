@@ -6,7 +6,7 @@ LessonFactory Class (Abstract)
 """
 class LessonFactory(models.Model):
 
-    """
+	"""
     It decides if lessons must be created using RepeatedLessonFactory or SingleLessonFactory
 
     Course => Course()

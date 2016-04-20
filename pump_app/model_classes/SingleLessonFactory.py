@@ -7,7 +7,7 @@ SingleLessonFactory Class
 """
 class SingleLessonFactory(LessonFactory):
 
-    """
+	"""
     It creates a new SingleLesson instance
 
     date => dateTime
