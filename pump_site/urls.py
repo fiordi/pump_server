@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from pump_app.views import Debug
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,6 +22,7 @@ urlpatterns = [
 
 #requests for ManageCourseHandler controller
 from pump_app.views import ManageCourseHandler
+from pump_app.views import ManagePacketHandler
 
 urlpatterns.extend([
     url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
@@ -42,6 +42,7 @@ router = routers.DefaultRouter()
 router.register(r'course', ManageCourseHandler().setCourseInfo(base_name='course'))
 router.register(r'single-lesson', ManageCourseHandler().setSingleLessonInfo(base_name='singleLesson'))
 router.register(r'repeated-lesson', ManageCourseHandler().setRepeatedLessonInfo(base_name='repeatedLesson'))
+router.register(r'packet', ManagePacketHandler().setPacketInfo(base_name='packet'))
 
 urlpatterns.extend([
     url(r'^rest/', include(router.urls)),
