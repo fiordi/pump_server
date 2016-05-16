@@ -2,14 +2,31 @@ from django.contrib.auth.models import User
 from django.db import models
 from solo.models import SingletonModel
 
+#recupero le proprieta' legate alla strategia
+import pump_site.sales_strategy
+properties = pump_site.sales_strategy
 
 """
 SalePricingStrategyFactory class (Singleton)
 """
-class PacketCatalog(SingletonModel):
+
+class SalePricingStrategyFactory(SingletonModel):
 	id = models.AutoField(primary_key=True)
 
-	name = models.TextField(null=True, blank=False, default="Sale Pricing Strategy Factory")
+	def getAllPricingStrategy(self):
+		PricingStrategy = []
+		SalePricingStrategy = self.getSalePricingStrategy()
+		PricingStrategy = PricingStrategy + SalePricingStrategy
+		return PricingStrategy
+
+	def getSalePricingStrategy(self):
+		from pump_app.model_classes.SalePricingStrategy import MorePacketsStrategy
+
+		PricingStrategy = []
+		if properties.sales_strategy_properties__morepacketsstrategy:
+			PricingStrategy.append(MorePacketsStrategy())
+		return PricingStrategy
+
 
 	def __unicode__(self):
-		return self.name
+		return "Sale Pricing Strategy Factory"

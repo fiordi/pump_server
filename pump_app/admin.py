@@ -8,7 +8,7 @@ from pump_app.models import SingleLesson
 from pump_app.models import RepeatedLesson
 from pump_app.models import Sale
 from pump_app.models import Subscription
-from pump_app.models import Customer
+from pump_app.models import StudentCustomer, SeniorCustomer
 #from pump_app.models import Activated
 #from pump_app.models import Deactivated
 #from pump_app.models import Trashed
@@ -22,7 +22,8 @@ admin.site.register(SingleLesson)
 admin.site.register(RepeatedLesson)
 admin.site.register(Sale)
 admin.site.register(Subscription)
-admin.site.register(Customer)
+admin.site.register(StudentCustomer)
+admin.site.register(SeniorCustomer)
 #admin.site.register(Trashed)
 #admin.site.register(Deactivated)
 #admin.site.register(Activated)

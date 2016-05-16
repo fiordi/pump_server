@@ -23,13 +23,14 @@ urlpatterns = [
 #requests for ManageCourseHandler controller
 from pump_app.views import ManageCourseHandler
 from pump_app.views import ManagePacketHandler
+from pump_app.views import ManageSaleHandler
 
 urlpatterns.extend([
     url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
     url(r'^course/getCourseState', ManageCourseHandler().getCourseState),
     url(r'^course/modifycourse', ManageCourseHandler().modifyCourse),
     url(r'^lesson/addlesson', ManageCourseHandler().addLesson),
-    url(r'^debug', ManageCourseHandler().debug)
+    url(r'^debug', ManageSaleHandler().debug)
 ])
 
 
@@ -43,6 +44,7 @@ router.register(r'course', ManageCourseHandler().setCourseInfo(base_name='course
 router.register(r'single-lesson', ManageCourseHandler().setSingleLessonInfo(base_name='singleLesson'))
 router.register(r'repeated-lesson', ManageCourseHandler().setRepeatedLessonInfo(base_name='repeatedLesson'))
 router.register(r'packet', ManagePacketHandler().setPacketInfo(base_name='packet'))
+router.register(r'sale', ManageSaleHandler().setSaleInfo(base_name='sale'))
 
 urlpatterns.extend([
     url(r'^rest/', include(router.urls)),

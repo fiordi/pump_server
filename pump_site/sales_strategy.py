@@ -1,0 +1,6 @@
+# sales_strategy_properties:
+sales_strategy_properties__morepacketsstrategy = False
+
+# morePacketsStrategy_properties:
+morePacketsStrategy_properties__percentage_of_discount = 15
+morePacketsStrategy_properties__min_number_of_packets = 2

@@ -5,4 +5,5 @@ import datetime
 
 from pump_app.model_classes.ManageCourseHandler import ManageCourseHandler
 from pump_app.model_classes.ManagePacketHandler import ManagePacketHandler
+from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
 

@@ -11,9 +11,11 @@ class Sale(models.Model):
 
     dateTime = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
-    amount = models.PositiveIntegerField(null=True)
+    amount_prediscount = models.PositiveIntegerField(null=True, blank=True)
 
-    packets = models.ManyToManyField(Packet, blank=False, related_name='sales')
+    amount = models.PositiveIntegerField(null=True, blank=True)
+
+    packets = models.ManyToManyField(Packet, blank=True, related_name='sales')
 
     """
     It creates a new instance of Sale and saves it into db
