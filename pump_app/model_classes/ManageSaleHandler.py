@@ -24,6 +24,26 @@ class ManageSaleHandler(View):
         from pump_app.REST_classes.SaleViewSet import SaleViewSet
         return SaleViewSet
 
+    def getTotal(self, Sale):
+        from pump_app.model_classes.SalePricingStrategyFactory import SalePricingStrategyFactory
+
+        packets = Sale.packets.all()
+
+        prediscount_amount = 0
+        for packet in packets:
+            prediscount_amount = prediscount_amount + packet.price
+
+        Sale.amount_prediscount = prediscount_amount
+        Sale.amount = Sale.amount_prediscount
+
+        #dopo aver aggiornato il timeStamp e i pacchetti, devo adottare la strategia di sconto
+        PricingStrategies = SalePricingStrategyFactory().getAllPricingStrategy()
+        from pump_app.model_classes.SalePricingStrategy import MorePacketsStrategy
+        for PricingStrategy in PricingStrategies:
+            amount = PricingStrategy.getAmount(Sale)
+            Sale.amount = amount
+
+
 
     """
     DEBUG METHOD! USE IT CAREFULLY!

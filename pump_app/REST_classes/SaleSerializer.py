@@ -19,27 +19,13 @@ class SaleSerializer(serializers.ModelSerializer):
 	:return Sale()
 	"""
 	def update(self, instance, validated_data):
-		from pump_app.model_classes.SalePricingStrategyFactory import SalePricingStrategyFactory
+		from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
 
 		instance.dateTime = validated_data.get('dateTime', instance.dateTime)
 		instance.packets = validated_data.get('packets', instance.packets)
 
-		packets = instance.packets.all()
-
 		#ogni volta che arrivano i pacchetti vengono aggiornati, ricalcolo il totale PreDiscount
-		prediscount_amount = 0
-		for packet in packets:
-			prediscount_amount = prediscount_amount + packet.price
-
-		instance.amount_prediscount = prediscount_amount
-		instance.amount = instance.amount_prediscount
-
-		#dopo aver aggiornato il timeStamp e i pacchetti, devo adottare la strategia di sconto
-		PricingStrategies = SalePricingStrategyFactory().getAllPricingStrategy()
-		from pump_app.model_classes.SalePricingStrategy import MorePacketsStrategy
-		for PricingStrategy in PricingStrategies:
-			amount = PricingStrategy.getAmount(instance)
-			instance.amount = amount
+		ManageSaleHandler().getTotal(instance)
 
 		instance.save()
 		course_request = self.context['request'].data
