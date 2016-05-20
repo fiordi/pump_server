@@ -1,12 +1,17 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.core.validators import MinValueValidator
 from pump_app.model_classes.PacketCatalog import PacketCatalog
 from pump_app.model_classes.PacketPrototype import PacketPrototype
-from pump_app.model_classes.PacketState import PacketState
+from pump_app.model_classes.PacketState import PacketState, PacketIncomplete
 from pump_app.model_classes.Course import Course
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 import datetime
+from decimal import *
+
+def setPacketIncomplete():
+    return PacketIncomplete()
 
 """
 Packet Class
@@ -18,21 +23,17 @@ class Packet(models.Model):
 
     description = models.TextField(null=True, blank=False)
 
-    price = models.PositiveIntegerField(null=True, verbose_name="price")
+    price = models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0'))])
 
     startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
-    content_type_state = models.ForeignKey(ContentType, verbose_name="state", null=True, blank=True, related_name="contentTypes_Packets")
-
-    object_id_state = models.PositiveIntegerField(null=True, verbose_name="object")
-
-    state = GenericForeignKey('content_type_state', 'object_id_state',)
+    state = models.ForeignKey(PacketState, to_field='name', null=True, blank=False, related_name='packets')
 
     packetcatalog = models.ForeignKey(PacketCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='packets')
 
-    courses = models.ManyToManyField(Course, blank=False, related_name='courses')
+    courses = models.ManyToManyField(Course, blank=True, related_name='courses')
 
     """
     It creates a new instance of Packet and saves it into db

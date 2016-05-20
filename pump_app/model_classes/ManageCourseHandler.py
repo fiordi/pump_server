@@ -22,7 +22,7 @@ class ManageCourseHandler(View):
        if request.method == 'GET':
            from Course import Course
            from CourseCatalog import CourseCatalog
-           from pump_app.model_classes.State import Incomplete
+           from pump_app.model_classes.CourseState import Incomplete
            course = Course().createCourse()
            incomplete = Incomplete()
            course.setState(incomplete)

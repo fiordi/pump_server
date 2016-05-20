@@ -5,6 +5,8 @@ from django.db import models
 Customer class (Interface)
 """
 class Customer(models.Model):
+	id = models.AutoField(primary_key=True)
+
 	user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
 	name = models.TextField(null=True, blank=False, default="Undefined")

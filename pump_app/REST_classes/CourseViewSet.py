@@ -10,3 +10,5 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 	queryset = Course.objects.all()
 	serializer_class = CourseSerializer
+	filter_backends = (filters.DjangoFilterBackend,)
+	filter_fields = ('id', 'name', 'startDate', 'endDate', 'state')

@@ -7,4 +7,5 @@ from pump_app.model_classes.Sale import Sale
 from pump_app.model_classes.Subscription import Subscription
 from pump_app.model_classes.SingleLesson import SingleLesson
 from pump_app.model_classes.RepeatedLesson import RepeatedLesson
-from pump_app.model_classes.State import Activated, Deactivated, Incomplete, Trashed
+from pump_app.model_classes.CourseState import CourseActivated, CourseDeactivated, CourseIncomplete, CourseTrashed
+from pump_app.model_classes.PacketState import PacketActivated, PacketDeactivated, PacketIncomplete

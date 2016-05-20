@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.core.validators import MinValueValidator
 from pump_app.model_classes.Packet import Packet
 import datetime
+from decimal import *
 
 """
 Sale Class
@@ -11,9 +13,9 @@ class Sale(models.Model):
 
     dateTime = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
-    amount_prediscount = models.PositiveIntegerField(null=True, blank=True)
+    amount_prediscount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0'))])
 
-    amount = models.PositiveIntegerField(null=True, blank=True)
+    amount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0.01'))])
 
     packets = models.ManyToManyField(Packet, blank=True, related_name='sales')
 

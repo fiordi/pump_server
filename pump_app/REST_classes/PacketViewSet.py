@@ -11,3 +11,5 @@ class PacketViewSet(viewsets.ModelViewSet):
 
 	queryset = Packet.objects.all()
 	serializer_class = PacketSerializer
+	filter_backends = (filters.DjangoFilterBackend,)
+	filter_fields = ('id', 'name', 'courses', 'state')

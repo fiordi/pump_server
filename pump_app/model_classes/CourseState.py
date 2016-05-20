@@ -1,9 +1,10 @@
 from django.db import models
 
+
 """
-PacketState Class (Interface)
+CourseState Class (Interface)
 """
-class PacketState(models.Model):
+class CourseState(models.Model):
     id = models.AutoField(primary_key=True)
 
     name = models.TextField(null=True, blank=False, unique=True, default='Undefined')
@@ -12,18 +13,18 @@ class PacketState(models.Model):
         return self.name + '(' + str(self.id) + ')'
 
 """
-PacketActivated Class (Singleton)
+CourseActivated Class (Singleton)
 """
-class PacketActivated(PacketState):
+class CourseActivated(CourseState):
 
     def setName(self):
         self.name = "Activated"
         self.save()
 
 """
-PacketDeativated Class (Singleton)
+CourseDeativated Class (Singleton)
 """
-class PacketDeactivated(PacketState):
+class CourseDeactivated(CourseState):
 
     def setName(self):
         self.name = "Deactivated"
@@ -31,10 +32,19 @@ class PacketDeactivated(PacketState):
 
 
 """
-PacketIncomplete Class (Singleton)
+CourseIncomplete Class (Singleton)
 """
-class PacketIncomplete(PacketState):
+class CourseIncomplete(CourseState):
 
     def setName(self):
         self.name = "Incomplete"
+        self.save()
+
+"""
+CourseTrashed Class (Singleton)
+"""
+class CourseTrashed(CourseState):
+
+    def setName(self):
+        self.name = "Trashed"
         self.save()

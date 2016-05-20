@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from pump_app.model_classes.CourseCatalog import CourseCatalog
 from pump_app.model_classes.CoursePrototype import CoursePrototype
-from pump_app.model_classes.State import State
+from pump_app.model_classes.CourseState import CourseState
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 import datetime
@@ -25,11 +25,7 @@ class Course(models.Model):
 
     endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
-    content_type_state = models.ForeignKey(ContentType, verbose_name="state", null=True, blank=True, related_name="contentTypes_Courses")
-
-    object_id_state = models.PositiveIntegerField(null=True, verbose_name="object")
-
-    state = GenericForeignKey('content_type_state', 'object_id_state',)
+    state = models.ForeignKey(CourseState, null=True, to_field='name', blank=False, related_name='courses')
 
     coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='courses')
 
@@ -45,7 +41,7 @@ class Course(models.Model):
     It returns the Object State related to the current Course instance
     """
     def getState(self):
-        return self.content_type_state
+        return self.state
 
     """
     It sets the arguments of the current Course instance
@@ -89,7 +85,7 @@ class Course(models.Model):
     State = State()
     """
     def setState(self, State):
-        State.setCourseState(self)
+        self.state = State
         self.save()
 
 
@@ -99,7 +95,7 @@ class Course(models.Model):
     def clone(self):
         from pump_app.model_classes.RepeatedLesson import RepeatedLesson
         from pump_app.model_classes.SingleLesson import SingleLesson
-        from pump_app.model_classes.State import Incomplete
+        from pump_app.model_classes.CourseState import Incomplete
         from copy import deepcopy
 
         courseNotModified = self
