@@ -22,10 +22,10 @@ class ManageCourseHandler(View):
        if request.method == 'GET':
            from Course import Course
            from CourseCatalog import CourseCatalog
-           from pump_app.model_classes.CourseState import Incomplete
+           from pump_app.model_classes.CourseState import CourseIncomplete
            course = Course().createCourse()
-           incomplete = Incomplete()
-           course.setState(incomplete)
+           Incomplete = CourseIncomplete.objects.all()[0]
+           course.setState(Incomplete)
            coursecatalog = CourseCatalog.objects.get() # to be continued
            coursecatalog.addCourse(course)
            last_id_course_added =\

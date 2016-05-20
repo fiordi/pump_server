@@ -95,7 +95,7 @@ class Course(models.Model):
     def clone(self):
         from pump_app.model_classes.RepeatedLesson import RepeatedLesson
         from pump_app.model_classes.SingleLesson import SingleLesson
-        from pump_app.model_classes.CourseState import Incomplete
+        from pump_app.model_classes.CourseState import CourseIncomplete
         from copy import deepcopy
 
         courseNotModified = self
@@ -103,8 +103,8 @@ class Course(models.Model):
         course.pk = None
 
         #setto lo stato del corso duplicato come Incompleto
-        incomplete = Incomplete()
-        course.setState(incomplete)
+        Incomplete = CourseIncomplete.objects.all()[0]
+        course.setState(Incomplete)
         course.save()
 
         #cerco tutte le repeatedLessons legate al courseNotModified e le duplico sul nuovo course
