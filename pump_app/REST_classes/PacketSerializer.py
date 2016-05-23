@@ -11,5 +11,5 @@ class PacketSerializer(serializers.ModelSerializer):
 		model = Packet
 
 
-		fields = ('id', 'name', 'description', 'price', 'startDate', 'endDate','state', 'courses')
+		fields = ('id', 'name', 'description', 'price', 'startDate', 'endDate','state', 'courses', 'image')
 

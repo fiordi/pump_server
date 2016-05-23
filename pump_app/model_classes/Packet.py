@@ -10,8 +10,9 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 import datetime
 from decimal import *
 
-def setPacketIncomplete():
-    return PacketIncomplete()
+#recupero le proprieta' di sistema
+import pump_site.system_settings
+system_settings = pump_site.system_settings
 
 """
 Packet Class
@@ -34,6 +35,8 @@ class Packet(models.Model):
     packetcatalog = models.ForeignKey(PacketCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='packets')
 
     courses = models.ManyToManyField(Course, blank=True, related_name='courses')
+
+    image = models.ImageField(upload_to=system_settings.absolute_path_image_packet, max_length=100, null=True, blank=True)
 
     """
     It creates a new instance of Packet and saves it into db
