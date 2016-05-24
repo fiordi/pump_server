@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from django.core.validators import MinValueValidator
 from pump_app.model_classes.PacketCatalog import PacketCatalog
@@ -36,7 +37,7 @@ class Packet(models.Model):
 
     courses = models.ManyToManyField(Course, blank=True, related_name='courses')
 
-    image = models.ImageField(upload_to=system_settings.absolute_path_image_packet, max_length=100, null=True, blank=True)
+    image = models.ImageField(upload_to=system_settings.relative_path_image_packet, max_length=100, null=True, blank=True)
 
     """
     It creates a new instance of Packet and saves it into db
