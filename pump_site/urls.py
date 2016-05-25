@@ -39,13 +39,13 @@ urlpatterns.extend([
 #requests for ManageCourseHandler controller to be redirected to REST FRAMEWORK
 from rest_framework import routers
 from django.conf.urls import url, include
-from pump_app.REST_classes.CourseCatalogViewSet import CourseCatalogViewSet
+from pump_app.REST_classes import CourseCatalogViewSet, PacketViewSet, SingleLessonViewSet, RepeatedLessonViewSet ,SaleViewSet
 
 router = routers.DefaultRouter()
 router.register(r'course', ManageCourseHandler().setCourseInfo(base_name='course'))
 router.register(r'single-lesson', ManageCourseHandler().setSingleLessonInfo(base_name='singleLesson'))
 router.register(r'repeated-lesson', ManageCourseHandler().setRepeatedLessonInfo(base_name='repeatedLesson'))
-router.register(r'packet', ManagePacketHandler().setPacketInfo(base_name='packet'))
+router.register(r'packet', PacketViewSet.PacketViewSet)
 router.register(r'sale', ManageSaleHandler().setSaleInfo(base_name='sale'))
 
 urlpatterns.extend([

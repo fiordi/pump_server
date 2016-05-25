@@ -4,7 +4,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from pump_app.model_classes.PacketCatalog import PacketCatalog
 from pump_app.model_classes.PacketPrototype import PacketPrototype
-from pump_app.model_classes.PacketState import PacketState, PacketIncomplete
+from pump_app.model_classes.PacketState import PacketState
 from pump_app.model_classes.Course import Course
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey

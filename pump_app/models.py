@@ -9,3 +9,4 @@ from pump_app.model_classes.SingleLesson import SingleLesson
 from pump_app.model_classes.RepeatedLesson import RepeatedLesson
 from pump_app.model_classes.CourseState import CourseActivated, CourseDeactivated, CourseIncomplete, CourseTrashed
 from pump_app.model_classes.PacketState import PacketActivated, PacketDeactivated, PacketIncomplete
+from pump_app.model_classes.SaleState import SaleCompleted, SaleIncomplete, SaleCancelled
