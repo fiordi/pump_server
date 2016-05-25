@@ -39,14 +39,15 @@ urlpatterns.extend([
 #requests for ManageCourseHandler controller to be redirected to REST FRAMEWORK
 from rest_framework import routers
 from django.conf.urls import url, include
-from pump_app.REST_classes import CourseCatalogViewSet, PacketViewSet, SingleLessonViewSet, RepeatedLessonViewSet ,SaleViewSet
+from pump_app.REST_classes import CourseViewSet, PacketViewSet, SingleLessonViewSet, RepeatedLessonViewSet , SaleViewSet, CustomerViewSet
 
 router = routers.DefaultRouter()
-router.register(r'course', ManageCourseHandler().setCourseInfo(base_name='course'))
-router.register(r'single-lesson', ManageCourseHandler().setSingleLessonInfo(base_name='singleLesson'))
-router.register(r'repeated-lesson', ManageCourseHandler().setRepeatedLessonInfo(base_name='repeatedLesson'))
+router.register(r'course', CourseViewSet.CourseViewSet)
+router.register(r'single-lesson', SingleLessonViewSet.SingleLessonViewSet)
+router.register(r'repeated-lesson', RepeatedLessonViewSet.RepeatedLessonViewSet)
 router.register(r'packet', PacketViewSet.PacketViewSet)
-router.register(r'sale', ManageSaleHandler().setSaleInfo(base_name='sale'))
+router.register(r'sale', SaleViewSet.SaleViewSet)
+router.register(r'customer', CustomerViewSet.CustomerViewSet)
 
 urlpatterns.extend([
     url(r'^rest/', include(router.urls)),

@@ -1,4 +1,4 @@
-from pump_app.model_classes.Customer import StudentCustomer, SeniorCustomer
+from pump_app.model_classes.Customer import Customer, StudentCustomer, SeniorCustomer
 from pump_app.model_classes.CourseCatalog import CourseCatalog
 from pump_app.model_classes.Course import Course
 from pump_app.model_classes.PacketCatalog import PacketCatalog
