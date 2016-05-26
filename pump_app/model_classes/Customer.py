@@ -11,7 +11,7 @@ Customer class (Abstract class)
 class Customer(models.Model):
 	id = models.AutoField(primary_key=True)
 
-	user = models.OneToOneField(User, null=True, blank=False, on_delete=models.CASCADE)
+	user = models.OneToOneField(User, null=True, blank=False, to_field='username', on_delete=models.CASCADE)
 
 	name = models.CharField(max_length=30,null=True, blank=False, default="Name")
 
