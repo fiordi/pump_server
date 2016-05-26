@@ -8,7 +8,10 @@ class SaleSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Sale
-		fields = ('id', 'dateTime', 'amount', 'packets')
+		fields = ('id', 'dateTime', 'amount', 'packets', 'user')
+		read_only_fields = ('dateTime', 'amount', 'user')
+
+
 
 	"""
 	It overrides the default __update()__ method of REST API in order to allow writing of state field (GenericForeignKey!)

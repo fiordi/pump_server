@@ -1,8 +1,12 @@
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from django.core.validators import MinValueValidator
 from pump_app.model_classes.SaleState import SaleState
 from pump_app.model_classes.Packet import Packet
+from pump_app.model_classes.Customer import Customer
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 import datetime
 from decimal import *
 
@@ -16,11 +20,13 @@ class Sale(models.Model):
 
     amount_prediscount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0'))])
 
-    amount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0.01'))])
+    amount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0'))])
 
     packets = models.ManyToManyField(Packet, blank=True, related_name='sales')
 
     state = models.ForeignKey(SaleState, to_field='name', null=True, blank=False, related_name='sales')
+
+    user = models.ForeignKey(Customer, null=True, blank=True, related_name='sales')
 
     """
     It creates a new instance of Sale and saves it into db

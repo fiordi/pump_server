@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from pump_app.model_classes.Packet import Packet
-from pump_app.model_classes.Customer import Customer
 import datetime
 
 """
@@ -15,8 +14,6 @@ class Subscription(models.Model):
     startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
-
-    customer = models.ForeignKey(Customer, null=True, blank=False, related_name='costumer')
 
     packets = models.ManyToManyField(Packet , blank=False, related_name='subscriptions')
 
