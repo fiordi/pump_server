@@ -6,8 +6,8 @@ from pump_app.model_classes.PacketCatalog import PacketCatalog
 from pump_app.model_classes.PacketPrototype import PacketPrototype
 from pump_app.model_classes.PacketState import PacketState
 from pump_app.model_classes.Course import Course
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 import datetime
 from decimal import *
 
@@ -39,12 +39,19 @@ class Packet(models.Model):
 
     image = models.ImageField(upload_to=system_settings.relative_path_image_packet, max_length=100, null=True, blank=True)
 
+
+
+
+
     """
     It creates a new instance of Packet and saves it into db
     """
     def makeNewPacket(self):
         self.save()
         return self
+
+
+
 
         """
     It sets the arguments of the current Packet instance
@@ -56,6 +63,19 @@ class Packet(models.Model):
         self.startDate = startDate
         self.endDate = endDate
         self.save()
+
+
+
+
+    """
+    It automatically associates the current packet instance to PacketCatalog on each save()
+    """
+    @receiver(pre_save)
+    def pre_save_handler(instance, *args, **kwargs):
+        instance.packetcatalog = PacketCatalog.objects.all()[0]
+
+
+
 
     def __unicode__(self):
         return self.name + '(' + str(self.id) + ')'

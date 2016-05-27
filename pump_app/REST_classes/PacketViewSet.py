@@ -1,5 +1,5 @@
-import django_filters
 from pump_app.model_classes.Packet import Packet
+import django_filters
 from rest_framework import viewsets, permissions, filters, generics
 from pump_app.REST_classes.PacketSerializer import PacketSerializer
 from django.shortcuts import get_object_or_404
@@ -24,7 +24,7 @@ class PacketViewSet(viewsets.ModelViewSet):
 
 
 	"""
-	It overrides the default __list()__ method of REST API for customizaton (print only relative path of image)
+	It overrides the default __list()__ method of REST API for customizaton (print only relative path of images)
 
 	request => HttpRequest()
 
@@ -39,6 +39,8 @@ class PacketViewSet(viewsets.ModelViewSet):
 
 		serializer = PacketSerializer(queryset, many=True)
 		return Response(serializer.data)
+
+
 
 
 	"""
@@ -61,8 +63,9 @@ class PacketViewSet(viewsets.ModelViewSet):
 		return Response(serializer.data)
 
 
+
 	"""
-	It creates a new router rule which is used to upload images of packet (print only relative path of image)
+	It creates a new router rule which is used to upload images of packet
 
 	request => HttpRequest()
 	pk => Integer

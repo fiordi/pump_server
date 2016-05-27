@@ -7,9 +7,13 @@ from solo.models import SingletonModel
 CourseCatalog class (Singleton)
 """
 class CourseCatalog(SingletonModel):
+
 	id = models.AutoField(primary_key=True)
 
 	name = models.TextField(null=True, blank=False, default="Course Catalog")
+
+
+
 
 	"""
 	It adds a Course to CourseCatalog

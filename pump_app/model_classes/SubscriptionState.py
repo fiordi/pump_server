@@ -1,58 +1,42 @@
 from django.db import models
-from solo.models import SingletonModel
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 
 """
 SubscriptionState Class (Interface)
 """
 class SubscriptionState(models.Model):
+    id = models.AutoField(primary_key=True)
 
-    def setSubscriptionState(self, Course):
-        pass
+    name = models.TextField(null=True, blank=False, unique=True, default='Undefined')
 
-    class Meta:
-		abstract = True
-
+    def __unicode__(self):
+        return self.name + '(' + str(self.id) + ')'
 
 """
 SubscriptionActive Class (Singleton)
 """
-class SubscriptionActive(SingletonModel, State):
-    id = models.AutoField(primary_key=True)
+class SubscriptionActive(SubscriptionState):
 
-    verbose_name = models.CharField(max_length=200, null=True, verbose_name="Active")
-
-    """
-    It sets the current SubscriptionActive instance to a Subscription
-
-    Subscription => Subscription()
-    """
-    def setSubscriptionActiveState(self, Subscription):
-        #la classe SingletonModel non assegna la pk all'oggetto. Le genericForeignKey tuttavia basano il loro funzionamento su di
-        #esso, pertanto viene settato manualmente
-        self.id = 1
+    def setName(self):
+        self.name = "Active"
         self.save()
 
-        Course.state = self
+"""
+SubscriptionInactive Class (Singleton)
+"""
+class SubscriptionInactive(SubscriptionState):
 
+    def setName(self):
+        self.name = "Inactive"
+        self.save()
 
 
 """
-SubscriptionExpired Class (Singleton)
+SubscriptionIncomplete Class (Singleton)
 """
-class SubscriptionExpired(SingletonModel, State):
-    id = models.AutoField(primary_key=True)
+class SubscriptionIncomplete(SubscriptionState):
 
-    verbose_name = models.CharField(max_length=200, null=True, verbose_name="Expired")
-
-    """
-    It sets the current SubscriptionExpired instance to a Subscription
-
-    Subscription => Subscription()
-    """
-    def setSubscriptionExpiredState(self, Subscription):
-        #la classe SingletonModel non assegna la pk all'oggetto. Le genericForeignKey tuttavia basano il loro funzionamento su di
-        #esso, pertanto viene settato manualmente
-        self.id = 1
+    def setName(self):
+        self.name = "Incomplete"
         self.save()
-
-        Course.state = self

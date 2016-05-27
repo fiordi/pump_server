@@ -29,7 +29,6 @@ from pump_app.views import ManageSaleHandler
 
 urlpatterns.extend([
     url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
-    url(r'^course/getCourseState', ManageCourseHandler().getCourseState),
     url(r'^course/modifycourse', ManageCourseHandler().modifyCourse),
     url(r'^lesson/addlesson', ManageCourseHandler().addLesson),
     url(r'^debug', ManageSaleHandler().debug)
@@ -39,7 +38,7 @@ urlpatterns.extend([
 #requests for ManageCourseHandler controller to be redirected to REST FRAMEWORK
 from rest_framework import routers
 from django.conf.urls import url, include
-from pump_app.REST_classes import CourseViewSet, PacketViewSet, SingleLessonViewSet, RepeatedLessonViewSet , SaleViewSet, CustomerViewSet
+from pump_app.REST_classes import CourseViewSet, PacketViewSet, SingleLessonViewSet, RepeatedLessonViewSet , SaleViewSet, CustomerViewSet, SubscriptionViewSet
 
 router = routers.DefaultRouter()
 router.register(r'course', CourseViewSet.CourseViewSet)
@@ -48,6 +47,7 @@ router.register(r'repeated-lesson', RepeatedLessonViewSet.RepeatedLessonViewSet)
 router.register(r'packet', PacketViewSet.PacketViewSet)
 router.register(r'sale', SaleViewSet.SaleViewSet)
 router.register(r'customer', CustomerViewSet.CustomerViewSet)
+router.register(r'subscription', SubscriptionViewSet.SubscriptionViewSet)
 
 urlpatterns.extend([
     url(r'^rest/', include(router.urls)),

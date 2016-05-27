@@ -14,6 +14,10 @@ class CustomerViewSet(viewsets.ModelViewSet):
 	queryset = Customer.objects.all()
 	serializer_class = CustomerSerializer
 
+
+
+
+
 	"""
 	It returns the serialization of logged costumer
 
@@ -23,12 +27,14 @@ class CustomerViewSet(viewsets.ModelViewSet):
 	"""
 	@list_route(methods=['get'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,))
 	def logged_customer(self, request):
+		try:
+			user = request.user
+			customer = user.customer
+		except:
+			user = None
 
-		user = User.objects.get(username=request.user.username)
-		customer = user.customer
-
-		if user.is_authenticated():
+		if user and user.is_authenticated():
 			serializer = CustomerSerializer(customer)
 			return Response(serializer.data)
 		else:
-			return Response({'id': 'no_user_session_active'})
+			return Response({'detail': 'Not found.'})

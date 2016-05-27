@@ -1,10 +1,6 @@
 from django.http import HttpResponse, Http404, HttpRequest
 from django.views.generic import View
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 from django.shortcuts import render
-from rest_framework.viewsets import ModelViewSet
 from copy import deepcopy
 import json
 
@@ -32,38 +28,9 @@ class ManageCourseHandler(View):
                Course.objects.latest('id').id
            return HttpResponse(last_id_course_added)
 
-    """
-    It handles the CRUD of Course redirecting the request to REST FRAMEWORK
 
-    base_name => str
 
-    :return viewsets.ModelViewSet()
-    """
-    def setCourseInfo(self, base_name):
-        from pump_app.REST_classes.CourseViewSet import CourseViewSet
-        return CourseViewSet
 
-    """
-    It handles the CRUD of SingleLesson redirecting the request to REST FRAMEWORK
-
-    base_name => str
-
-    :return viewsets.ModelViewSet()
-    """
-    def setSingleLessonInfo(self, base_name):
-        from pump_app.REST_classes.SingleLessonViewSet import SingleLessonViewSet
-        return SingleLessonViewSet
-
-    """
-    It handles the CRUD of a RepeatedLesson redirecting the request to REST FRAMEWORK
-
-    base_name => str
-
-    :return viewsets.ModelViewSet()
-    """
-    def setRepeatedLessonInfo(self, base_name):
-        from pump_app.REST_classes.RepeatedLessonViewSet import RepeatedLessonViewSet
-        return RepeatedLessonViewSet
 
     """
     It handles the creation of Lesson
@@ -100,20 +67,6 @@ class ManageCourseHandler(View):
             return HttpResponse(weekDayOfLesson)
 
 
-    """
-    It handles the request of getting the state of a Course
-
-    request => HttpRequest()
-
-    :return HttpResponse()
-    """
-    def getCourseState(self, request):
-        if request.method == 'GET':
-            from pump_app.model_classes.Course import Course
-
-            courseID = request.GET.get('courseID', '')
-            course = Course.objects.get(pk = courseID)
-            return HttpResponse(course.getState())
 
     """
     It handles the modify of a Course
@@ -133,17 +86,3 @@ class ManageCourseHandler(View):
             courseModified = courseNotModified.clone()
             return HttpResponse(courseModified.pk)
 
-
-    """
-    DEBUG METHOD! USE IT CAREFULLY!
-
-    request => HttpRequest()
-
-    :return HttpResponse()
-    """
-    def debug(self, request):
-        if request.method == 'GET':
-            from pump_app.model_classes.utility.Utility import Utility
-
-            state = Utility().str_to_class("Activated")
-            return HttpResponse(str(state))

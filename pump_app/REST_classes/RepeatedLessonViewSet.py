@@ -1,5 +1,5 @@
-import django_filters
 from pump_app.model_classes.RepeatedLesson import RepeatedLesson
+import django_filters
 from rest_framework import viewsets, permissions, filters, generics
 from pump_app.REST_classes.RepeatedLessonSerializer import RepeatedLessonSerializer
 

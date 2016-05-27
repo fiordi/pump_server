@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from pump_app.model_classes.Packet import Packet
+from pump_app.model_classes.SubscriptionState import SubscriptionState
 import datetime
 
 """
@@ -17,12 +18,7 @@ class Subscription(models.Model):
 
     packets = models.ManyToManyField(Packet , blank=False, related_name='subscriptions')
 
-    content_type_state = models.ForeignKey(ContentType, verbose_name="state", null=True, blank=True, related_name="contentTypes_Subscriptions")
-
-    object_id_state = models.PositiveIntegerField(null=True, verbose_name="object")
-
-    state = GenericForeignKey('content_type_state', 'object_id_state',)
-
+    state = models.ForeignKey(SubscriptionState, to_field='name', null=True, blank=False, on_delete=models.PROTECT, related_name='subscriptions')
 
     """
     It creates a new instance of Subscription and saves it into db
@@ -40,4 +36,4 @@ class Subscription(models.Model):
         self.save()
 
     def __unicode__(self):
-        return self.name + '(' + str(self.id) + ')'
+        return str(self.endDate) + '(' + str(self.id) + ')'

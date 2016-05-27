@@ -21,10 +21,13 @@ class SalePricingStrategyFactory(SingletonModel):
 
 	def getSalePricingStrategy(self):
 		from pump_app.model_classes.SalePricingStrategy import MorePacketsStrategy
+		from pump_app.model_classes.SalePricingStrategy import StudentCustomerStrategy
 
 		PricingStrategy = []
 		if properties.sales_strategy_properties__morepacketsstrategy:
 			PricingStrategy.append(MorePacketsStrategy())
+		if properties.sales_strategy_properties__studentcustomerstrategy:
+			PricingStrategy.append(StudentCustomerStrategy())
 		return PricingStrategy
 
 

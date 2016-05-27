@@ -7,6 +7,7 @@ from pump_app.model_classes.Packet import Packet
 from pump_app.model_classes.Customer import Customer
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from picklefield.fields import PickledObjectField
 import datetime
 from decimal import *
 
@@ -21,6 +22,8 @@ class Sale(models.Model):
     amount_prediscount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0'))])
 
     amount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0'))])
+
+    applied_strategies = PickledObjectField(null=True, blank=True, default= {});
 
     packets = models.ManyToManyField(Packet, blank=True, related_name='sales')
 

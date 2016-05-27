@@ -6,6 +6,7 @@ from rest_framework import status
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from copy import deepcopy
+from collections import Counter
 import json
 
 """
@@ -24,6 +25,7 @@ class ManageSaleHandler(View):
         from pump_app.REST_classes.SaleViewSet import SaleViewSet
         return SaleViewSet
 
+
     def getTotal(self, Sale):
         from pump_app.model_classes.SalePricingStrategyFactory import SalePricingStrategyFactory
 
@@ -40,8 +42,9 @@ class ManageSaleHandler(View):
         PricingStrategies = SalePricingStrategyFactory().getAllPricingStrategy()
         from pump_app.model_classes.SalePricingStrategy import MorePacketsStrategy
         for PricingStrategy in PricingStrategies:
-            amount = PricingStrategy.getAmount(Sale)
+            [applied_strategy, amount] = PricingStrategy.getAmount(Sale)
             Sale.amount = amount
+            Sale.applied_strategies = Counter(Sale.applied_strategies) + Counter(applied_strategy)
 
 
 

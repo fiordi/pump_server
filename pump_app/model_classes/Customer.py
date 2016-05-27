@@ -21,27 +21,42 @@ class Customer(models.Model):
 
 	phone = PhoneNumberField(blank=True)
 
-	subscription = models.ForeignKey(Subscription, null=True, blank=True, related_name='customer')
+	subscription = models.ForeignKey(Subscription, null=True, blank=True, on_delete=models.DO_NOTHING, related_name='customer')
 
 	type = models.TextField(null=True, blank=False, default='Type of user')
 
 	def __unicode__(self):
 		return self.name
 
+
+
+
+
+
 """
 StudentCustomer class (extends Customer)
 """
 class StudentCustomer(Customer):
 
+	"""
+	It automatically associates the class_name to name field on each save()
+	"""
 	@receiver(pre_save)
 	def pre_save_handler(sender, instance, *args, **kwargs):
 		instance.type = instance.__class__.__name__
+
+
+
+
 
 """
 SeniorCustomer class (extends Customer)
 """
 class SeniorCustomer(Customer):
 
+	"""
+	It automatically associates the class_name to name field on each save()
+	"""
 	@receiver(pre_save)
 	def pre_save_handler(sender, instance, *args, **kwargs):
 		instance.type = instance.__class__.__name__

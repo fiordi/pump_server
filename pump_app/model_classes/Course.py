@@ -3,8 +3,8 @@ from django.db import models
 from pump_app.model_classes.CourseCatalog import CourseCatalog
 from pump_app.model_classes.CoursePrototype import CoursePrototype
 from pump_app.model_classes.CourseState import CourseState
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 import datetime
 
 """
@@ -27,7 +27,7 @@ class Course(models.Model):
 
     state = models.ForeignKey(CourseState, null=True, to_field='name', blank=False, related_name='courses')
 
-    coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.CASCADE, related_name='courses')
+    coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.DO_NOTHING, related_name='courses')
 
 
     """
@@ -134,6 +134,15 @@ class Course(models.Model):
                 singlelesson.save()
 
         return course
+
+
+    """
+    It automatically associates the current course instance to CourseCatalog on each save()
+    """
+    @receiver(pre_save)
+    def pre_save_handler(instance, *args, **kwargs):
+        instance.coursecatalog = CourseCatalog.objects.all()[0]
+
 
 
     def __unicode__(self):
