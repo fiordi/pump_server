@@ -1,5 +1,5 @@
 from pump_app.model_classes.Sale import Sale
-from rest_framework import viewsets, permissions, filters, generics
+from rest_framework import viewsets, permissions, filters, generics, status
 from pump_app.REST_classes.SaleSerializer import SaleSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import detail_route
@@ -79,56 +79,94 @@ class SaleViewSet(viewsets.ModelViewSet):
 
 
 
+	"""
+	It creates a new route rule which checks if Sale can be completed and, if so, creates a new Subscription or updates existing
 
-		"""
-		It creates a new route rule which checks if Sale can be completed and, if so, creates a new Subscription or updates existing
+	request => HttpRequest()
+	pk => Integer
 
-		request => HttpRequest()
-		pk => Integer
+	:return Response()
+	"""
+	@detail_route(methods=['get'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,))
+	def confirm_sale(self, request, pk=None):
+		from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
+		from pump_app.model_classes.SubscriptionState import SubscriptionActive
+		from pump_app.model_classes.SaleState import SaleCompleted
 
-		:return Response()
-		"""
-		@detail_route(methods=['get'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,))
-		def confirm_sale(self, request, pk=None):
-			from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
-			from pump_app.model_classes.SubscriptionState import SubscriptionActive
-			from pump_app.model_classes.SaleState import SaleCompleted
+		queryset = Sale.objects.all()
+		sale = get_object_or_404(queryset, pk=pk)
 
-			queryset = Sale.objects.all()
-			sale = get_object_or_404(queryset, pk=pk)
+		#checks (to be written)
+		#...
+		#...
 
-			#checks (to be written)
-			#...
-			#...
+		customer = request.user.customer
 
-			customer = request.user.customer
-
-			#verifica se il cliente ha gia' una subscription oppure ne crea una nuova
-			if customer.subscription:
-				subscription = customer.subscription
-			else:
-				subscription = ManageSubscriptionHandler().makeNewSubscription()
-
-
-			packets = subscription.packets.all() + sale.packets.all()
+		#verifica se il cliente ha gia' una subscription oppure ne crea una nuova
+		if customer.subscription:
+			subscription = customer.subscription
+		else:
+			subscription = ManageSubscriptionHandler().makeNewSubscription()
 
 
-			startdate_subscription = ManageSubscriptionHandler().evalStartDate(packets, sale.dateTime)
-			enddate_subscription = ManageSubscriptionHandler().evalEndDate(packets)
+		packets = subscription.packets.all() + sale.packets.all()
 
-			for packet in packets:
-				subscription.packets.add(packet)
-			subscription.startDate = startdate_subscription
-			subscription.endDate = enddate_subscription
-			subscription.state = SubscriptionActive.objects.all()[0]
-			subscription.save()
 
-			customer.subscription = subscription
-			customer.save()
+		startdate_subscription = ManageSubscriptionHandler().evalStartDate(packets, sale.dateTime)
+		enddate_subscription = ManageSubscriptionHandler().evalEndDate(packets)
 
-			sale.state = SaleCompleted.objects.all()[0]
+		for packet in packets:
+			subscription.packets.add(packet)
+
+		subscription.startDate = startdate_subscription
+		subscription.endDate = enddate_subscription
+		subscription.state = SubscriptionActive.objects.all()[0]
+		subscription.save()
+
+		customer.subscription = subscription
+		customer.save()
+
+		sale.state = SaleCompleted.objects.all()[0]
+		sale.save()
+
+
+		serializer = SaleSerializer(sale)
+		return Response(serializer.data)
+
+
+
+	"""
+	It checks if a Packet can be added to a Sale and, if so, do it
+
+	request => HttpRequest()
+	pk => Integer
+
+	:return Response()
+	"""
+	@detail_route(methods=['put', 'patch'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,))
+	def add_packet(self, request, pk=None):
+		from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
+		from pump_app.model_classes.Packet import Packet
+
+		queryset = Sale.objects.all()
+		sale = get_object_or_404(queryset, pk=pk)
+
+		serializer = SaleSerializer(data=request.data)
+
+		customer = request.user.customer
+
+		try:
+			subscription = customer.subscription
+		except:
+			subscription = None
+
+		if serializer.is_valid() and subscription:
+			packet_pk = request.data.get('packets')
+			if ManageSubscriptionHandler().checkPacketInSubscription(subscription, packet_pk):
+				return Response({'detail': 'AlreadySubscribed'}, status=status.HTTP_409_CONFLICT)
+			packet = Packet.objects.get(pk=packet_pk)
+			sale.packets.add(packet)
 			sale.save()
 
-
-			serializer = SaleSerializer(sale)
-			return Response(serializer.data)
+		serializer = SaleSerializer(sale)
+		return Response(serializer.data)

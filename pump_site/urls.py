@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-#requests for ManageCourseHandler controller
+#requests for OUR handlers
 from pump_app.views import ManageCourseHandler
 from pump_app.views import ManagePacketHandler
 from pump_app.views import ManageSaleHandler
@@ -35,7 +35,7 @@ urlpatterns.extend([
 ])
 
 
-#requests for ManageCourseHandler controller to be redirected to REST FRAMEWORK
+#requests to be redirected to REST FRAMEWORK handlers
 from rest_framework import routers
 from django.conf.urls import url, include
 from pump_app.REST_classes import CourseViewSet, PacketViewSet, SingleLessonViewSet, RepeatedLessonViewSet , SaleViewSet, CustomerViewSet, SubscriptionViewSet

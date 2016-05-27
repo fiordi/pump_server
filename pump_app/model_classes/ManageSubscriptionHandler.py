@@ -2,6 +2,7 @@ from django.http import HttpResponse, Http404, HttpRequest
 from django.views.generic import View
 from rest_framework.response import Response
 from pump_app.model_classes.Subscription import Subscription
+from pump_app.model_classes.Packet import Packet
 import json
 
 """
@@ -50,3 +51,14 @@ class ManageSubscriptionHandler(View):
         enddate_subscription = maxdate_packet
 
         return enddate_subscription
+
+
+
+
+
+    def checkPacketInSubscription(self, subscription, packet_pk):
+        packet = Packet.objects.get(pk=packet_pk)
+        if packet in subscription.packets.all():
+            return True
+        else:
+            return False
