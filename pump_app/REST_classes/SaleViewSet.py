@@ -36,9 +36,6 @@ class SaleViewSet(viewsets.ModelViewSet):
 		queryset = Sale.objects.all()
 		sale = get_object_or_404(queryset, pk=pk)
 
-		#ogni volta che vengono richieste informazioni su una sale, ne aggiorno il totale
-		ManageSaleHandler().getTotal(sale)
-
 		serializer = SaleSerializer(sale)
 		return Response(serializer.data)
 
@@ -148,7 +145,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 
 	:return Response()
 	"""
-	@detail_route(methods=['put', 'patch'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,), serializer_class = SaleSerializer_packets_field)
+	@detail_route(methods=['put', 'patch'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,))
 	def patch_packets(self, request, pk=None):
 		from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
 		from pump_app.model_classes.Packet import Packet
@@ -176,5 +173,5 @@ class SaleViewSet(viewsets.ModelViewSet):
 					sale.packets.add(packet)
 					sale.save()
 
-		serializer = SaleSerializer_packets_field(sale)
+		serializer = SaleSerializer(sale)
 		return Response(serializer.data)

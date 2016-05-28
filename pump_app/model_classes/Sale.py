@@ -2,12 +2,13 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 from pump_app.model_classes.SaleState import SaleState
 from pump_app.model_classes.Packet import Packet
 from pump_app.model_classes.Customer import Customer
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
 from picklefield.fields import PickledObjectField
+
 import datetime
 from decimal import *
 
@@ -37,6 +38,18 @@ class Sale(models.Model):
     def makeNewSale(self):
         self.save()
         return self
+
+    """
+    It automatically calculates the amount of the sale (following strategies, if available) on each save()
+    """
+    @receiver(pre_save)
+    def pre_save_get_amount(sender, instance, *args, **kwargs):
+        from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
+
+        ManageSaleHandler().getTotal(instance)
+
+
+
 
     def __unicode__(self):
         return str(self.dateTime) + '(' + str(self.id) + ')'
