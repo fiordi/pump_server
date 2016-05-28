@@ -4,7 +4,9 @@ from pump_app.REST_classes.SaleSerializer import SaleSerializer, SaleSerializer_
 from rest_framework import viewsets, permissions, filters, generics, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
+from collections import Counter
 import datetime, json
+
 
 """
 SaleViewSet Class
@@ -91,7 +93,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 	def confirm_sale(self, request, pk=None):
 		from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
 		from pump_app.model_classes.SubscriptionState import SubscriptionActive
-		from pump_app.model_classes.SaleState import SaleCompleted
+		from pump_app.model_classes.SaleState import SaleCompleted, SaleState
 
 		queryset = Sale.objects.all()
 		sale = get_object_or_404(queryset, pk=pk)
@@ -109,7 +111,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 			subscription = ManageSubscriptionHandler().makeNewSubscription()
 
 
-		packets = subscription.packets.all() + sale.packets.all()
+		packets = Counter(subscription.packets.all()) + Counter(sale.packets.all())
 
 
 		startdate_subscription = ManageSubscriptionHandler().evalStartDate(packets, sale.dateTime)

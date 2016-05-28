@@ -5,12 +5,12 @@ from rest_framework import serializers
 SaleSerializer Class
 """
 class SaleSerializer(serializers.ModelSerializer):
-	applied_strategies = serializers.DictField(child=serializers.CharField())
+	applied_strategies = serializers.DictField(child=serializers.CharField(), read_only=True)
 
 	class Meta:
 		model = Sale
 		fields = ('id', 'dateTime', 'amount', 'applied_strategies', 'packets', 'user')
-		read_only_fields = ('dateTime', 'amount', 'applied_strategies', 'user')
+		read_only_fields = ('dateTime', 'amount', 'applied_strategies', 'packets', 'user')
 
 
 
