@@ -31,7 +31,6 @@ urlpatterns.extend([
     url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
     url(r'^course/modifycourse', ManageCourseHandler().modifyCourse),
     url(r'^lesson/addlesson', ManageCourseHandler().addLesson),
-    url(r'^debug', ManageSaleHandler().debug)
 ])
 
 

@@ -25,6 +25,7 @@ class MorePacketsStrategy(SingletonModel):
 		packets = Sale.packets.all()
 
 		applied_strategy = {}
+
 		if len(packets) >= properties.morePacketsStrategy_properties__min_number_of_packets:
 			amount = Sale.amount*(100-properties.morePacketsStrategy_properties__percentage_of_discount)/100
 			applied_strategy[self.__class__.__name__] = Sale.amount - amount

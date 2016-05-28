@@ -97,7 +97,7 @@ class PacketViewSet(viewsets.ModelViewSet):
 
 
 	"""
-	It creates a new router rule which returns only not subscribed packets
+	It creates a new route rule which returns only not subscribed packets
 
 	request => HttpRequest()
 
