@@ -12,3 +12,17 @@ class PacketSerializer(serializers.ModelSerializer):
 
 
 		fields = ('id', 'name', 'description', 'price', 'startDate', 'endDate','state', 'courses', 'image')
+
+
+
+
+"""
+PacketSerializer_imageToText Class
+"""
+class PacketSerializer_imageToText(serializers.ModelSerializer):
+	image = serializers.CharField()
+
+	class Meta:
+		model = Packet
+
+		fields = ('id', 'name', 'description', 'price', 'startDate', 'endDate','state', 'courses', 'image')

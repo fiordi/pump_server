@@ -11,3 +11,15 @@ class SaleSerializer(serializers.ModelSerializer):
 		model = Sale
 		fields = ('id', 'dateTime', 'amount', 'applied_strategies', 'packets', 'user')
 		read_only_fields = ('dateTime', 'amount', 'applied_strategies', 'user')
+
+
+
+
+"""
+SaleSerializer_packets_field Class
+"""
+class SaleSerializer_packets_field(serializers.ModelSerializer):
+
+	class Meta:
+		model = Sale
+		fields = ('packets',)

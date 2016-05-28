@@ -1,7 +1,7 @@
-from pump_app.model_classes.Sale import Sale
-from rest_framework import viewsets, permissions, filters, generics, status
-from pump_app.REST_classes.SaleSerializer import SaleSerializer
 from django.shortcuts import get_object_or_404
+from pump_app.model_classes.Sale import Sale
+from pump_app.REST_classes.SaleSerializer import SaleSerializer, SaleSerializer_packets_field
+from rest_framework import viewsets, permissions, filters, generics, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 import datetime, json
@@ -135,23 +135,26 @@ class SaleViewSet(viewsets.ModelViewSet):
 
 
 
+
+
+
 	"""
-	It checks if a Packet can be added to a Sale and, if so, do it
+	It checks if a Packet can be added to a Sale and, if so, does it
 
 	request => HttpRequest()
 	pk => Integer
 
 	:return Response()
 	"""
-	@detail_route(methods=['put', 'patch'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,))
-	def add_packet(self, request, pk=None):
+	@detail_route(methods=['put', 'patch'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,), serializer_class = SaleSerializer_packets_field)
+	def patch_packets(self, request, pk=None):
 		from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
 		from pump_app.model_classes.Packet import Packet
 
 		queryset = Sale.objects.all()
 		sale = get_object_or_404(queryset, pk=pk)
 
-		serializer = SaleSerializer(data=request.data)
+		serializer = SaleSerializer_packets_field(data=request.data)
 
 		customer = request.user.customer
 
@@ -161,12 +164,15 @@ class SaleViewSet(viewsets.ModelViewSet):
 			subscription = None
 
 		if serializer.is_valid() and subscription:
-			packet_pk = request.data.get('packets')
-			if ManageSubscriptionHandler().checkPacketInSubscription(subscription, packet_pk):
-				return Response({'detail': 'AlreadySubscribed'}, status=status.HTTP_409_CONFLICT)
-			packet = Packet.objects.get(pk=packet_pk)
-			sale.packets.add(packet)
-			sale.save()
+			packets_pk = request.data.get('packets')
+			sale.packets.clear()
+			for packet_pk in packets_pk:
+				if ManageSubscriptionHandler().checkPacketInSubscription(subscription, packet_pk):
+					pass
+				else:
+					packet = Packet.objects.get(pk=packet_pk)
+					sale.packets.add(packet)
+					sale.save()
 
-		serializer = SaleSerializer(sale)
+		serializer = SaleSerializer_packets_field(sale)
 		return Response(serializer.data)

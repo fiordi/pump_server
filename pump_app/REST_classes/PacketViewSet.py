@@ -1,9 +1,9 @@
 from pump_app.model_classes.Packet import Packet
 import django_filters
 from rest_framework import viewsets, permissions, filters, generics
-from pump_app.REST_classes.PacketSerializer import PacketSerializer
+from pump_app.REST_classes.PacketSerializer import PacketSerializer, PacketSerializer_imageToText
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 import os, json
 
@@ -91,3 +91,38 @@ class PacketViewSet(viewsets.ModelViewSet):
 		packet.save()
 
 		return Response({'image': image_path})
+
+
+
+
+
+	"""
+	It creates a new router rule which returns only not subscribed packets
+
+	request => HttpRequest()
+
+	:return Response()
+	"""
+	@list_route(methods=['get'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,))
+	def not_subscr_packets(self, request):
+		from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
+
+		packets = Packet.objects.all()
+
+		packets_not_subscribed =[]
+
+		subscription = request.user.customer.subscription
+
+		if subscription:
+			for packet in packets:
+				packet_pk = packet.id
+				if ManageSubscriptionHandler().checkPacketInSubscription(subscription, packet_pk):
+					pass
+				else:
+					packets_not_subscribed.append(packet)
+					packet.image = system_settings.relative_path_image_packet + os.path.basename(packet.image.name)
+
+		serializer = PacketSerializer_imageToText(packets_not_subscribed, many=True)
+
+		return Response(serializer.data)
+
