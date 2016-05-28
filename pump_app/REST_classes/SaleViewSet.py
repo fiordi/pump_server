@@ -165,11 +165,11 @@ class SaleViewSet(viewsets.ModelViewSet):
 		except:
 			subscription = None
 
-		if serializer.is_valid() and subscription:
+		if serializer.is_valid():
 			packets_pk = request.data.get('packets')
 			sale.packets.clear()
 			for packet_pk in packets_pk:
-				if ManageSubscriptionHandler().checkPacketInSubscription(subscription, packet_pk):
+				if subscription and ManageSubscriptionHandler().checkPacketInSubscription(subscription, packet_pk):
 					pass
 				else:
 					packet = Packet.objects.get(pk=packet_pk)
