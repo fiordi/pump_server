@@ -1,10 +1,13 @@
+from pump_app.model_classes.Sale import Sale
 from django.http import HttpResponse, Http404, HttpRequest
 from django.views.generic import View
 from django.shortcuts import render
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 from copy import deepcopy
 from collections import Counter
-import json
 from decimal import *
+import json
 
 """
 ManageSaleHandler Class (Singleton)
@@ -26,11 +29,15 @@ class ManageSaleHandler(View):
     def getTotal(self, Sale):
         from pump_app.model_classes.SalePricingStrategyFactory import SalePricingStrategyFactory
 
-        packets = Sale.packets.all()
+        try:
+            packets = Sale.packets.all()
+        except:
+            packets = None
 
         prediscount_amount = Decimal(0)
-        for packet in packets:
-            prediscount_amount = prediscount_amount + packet.price
+        if packets:
+            for packet in packets:
+                prediscount_amount = prediscount_amount + packet.price
 
         Sale.amount_prediscount = prediscount_amount
         Sale.amount = Sale.amount_prediscount
@@ -45,3 +52,13 @@ class ManageSaleHandler(View):
             Sale.amount = amount
             Sale.applied_strategies = Counter(Sale.applied_strategies) + Counter(applied_strategy)
 
+
+
+    """
+    It automatically calculates the amount of the sale (following strategies, if available) on each save()
+    """
+    @receiver(post_save, sender=Sale)
+    def pre_save_get_amount(sender, instance, *args, **kwargs):
+        from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
+
+        ManageSaleHandler().getTotal(instance)
