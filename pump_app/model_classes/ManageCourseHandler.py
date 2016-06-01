@@ -1,6 +1,9 @@
+from pump_app.model_classes.Course import Course
 from django.http import HttpResponse, Http404, HttpRequest
 from django.views.generic import View
 from django.shortcuts import render
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 from copy import deepcopy
 import json
 
@@ -86,3 +89,13 @@ class ManageCourseHandler(View):
             courseModified = courseNotModified.clone()
             return HttpResponse(courseModified.pk)
 
+
+"""
+It automatically associates the current course instance to CourseCatalog on each save()
+"""
+
+@receiver(post_save, sender=Course)
+def post_save_handler(sender, instance, *args, **kwargs):
+    from pump_app.model_classes.CourseCatalog import CourseCatalog
+
+    instance.coursecatalog = CourseCatalog.objects.all()[0]

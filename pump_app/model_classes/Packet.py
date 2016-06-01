@@ -6,8 +6,6 @@ from pump_app.model_classes.PacketCatalog import PacketCatalog
 from pump_app.model_classes.PacketPrototype import PacketPrototype
 from pump_app.model_classes.PacketState import PacketState
 from pump_app.model_classes.Course import Course
-from django.db.models.signals import pre_save, post_save
-from django.dispatch import receiver
 import datetime
 from decimal import *
 
@@ -63,17 +61,6 @@ class Packet(models.Model):
         self.startDate = startDate
         self.endDate = endDate
         self.save()
-
-
-
-
-    """
-    It automatically associates the current packet instance to PacketCatalog on each save()
-    """
-    @receiver(pre_save)
-    def pre_save_handler(instance, *args, **kwargs):
-        instance.packetcatalog = PacketCatalog.objects.all()[0]
-
 
 
 
