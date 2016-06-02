@@ -115,8 +115,10 @@ class CompositeBestForStorePricingStrategy(CompositePricingStrategy):
 
 		for pricingStrategy in self.pricingStrategies:
 			[applied_strategy, amount] = pricingStrategy.getAmount(Sale)
-			highestAmount = max(highestAmount, amount)
-			if applied_strategy[applied_strategy.keys()[0]] is not 0 and highestAmount == amount:
-				Sale.applied_strategies = highestAmount
+			if amount is not Sale.amount:
+				highestAmount = max(highestAmount, amount)
+
+				if highestAmount is amount:
+					Sale.applied_strategies = Counter(applied_strategy)
 
 		Sale.amount = highestAmount
