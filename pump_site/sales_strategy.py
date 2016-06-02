@@ -1,4 +1,5 @@
 # sales_strategy_properties:
+sales_strategy_properties__compositebestfor = 'store'
 sales_strategy_properties__morepacketsstrategy = True
 sales_strategy_properties__studentcustomerstrategy = True
 

@@ -22,7 +22,7 @@ class Sale(models.Model):
 
     amount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0'))])
 
-    applied_strategies = PickledObjectField(null=True, blank=True, default= {});
+    applied_strategies = PickledObjectField(null=True, blank=True, default= {})
 
     packets = models.ManyToManyField(Packet, blank=True, related_name='sales')
 

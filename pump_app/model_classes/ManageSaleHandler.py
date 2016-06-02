@@ -43,14 +43,12 @@ class ManageSaleHandler(View):
         Sale.amount = Sale.amount_prediscount
 
         #dopo aver aggiornato il timeStamp e i pacchetti, devo adottare la strategia di sconto
+        CompositeBestForPricingStrategy = SalePricingStrategyFactory().getCompositeBestPricingStrategy()
         PricingStrategies = SalePricingStrategyFactory().getAllPricingStrategy()
 
-        Sale.applied_strategies = {}
+        CompositeBestForPricingStrategy.add(PricingStrategies)
 
-        for PricingStrategy in PricingStrategies:
-            [applied_strategy, amount] = PricingStrategy.getAmount(Sale)
-            Sale.amount = amount
-            Sale.applied_strategies = Counter(Sale.applied_strategies) + Counter(applied_strategy)
+        CompositeBestForPricingStrategy.getAmount(Sale)
 
 
 
@@ -58,7 +56,7 @@ class ManageSaleHandler(View):
     It automatically calculates the amount of the sale (following strategies, if available) on each save()
     """
     @receiver(post_save, sender=Sale)
-    def pre_save_get_amount(sender, instance, *args, **kwargs):
+    def post_save_getTotal(sender, instance, *args, **kwargs):
         from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
 
         ManageSaleHandler().getTotal(instance)
