@@ -1,9 +1,12 @@
+from pump_app.model_classes.Packet import Packet
 from django.http import HttpResponse, Http404, HttpRequest
 from django.views.generic import View
+from django.shortcuts import render
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from copy import deepcopy
 import json
@@ -25,16 +28,10 @@ class ManagePacketHandler(View):
         return PacketViewSet
 
 
-    """
-    DEBUG METHOD! USE IT CAREFULLY!
+"""
+It automatically associates the current packet instance to PacketCatalog on each save()
+"""
 
-    request => HttpRequest()
-
-    :return HttpResponse()
-    """
-    def debug(self, request):
-        if request.method == 'GET':
-            from pump_app.model_classes.utility.Utility import Utility
-
-            state = Utility().str_to_class("Activated")
-            return HttpResponse(str(state))
+@receiver(post_save, sender=Packet)
+def post_save_handler(sender, instance, *args, **kwargs):
+    instance.packetcatalog = PacketCatalog.objects.all()[0]

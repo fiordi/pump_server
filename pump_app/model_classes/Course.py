@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
-from django.db import models
 from pump_app.model_classes.CourseCatalog import CourseCatalog
 from pump_app.model_classes.CoursePrototype import CoursePrototype
 from pump_app.model_classes.CourseState import CourseState
+from django.contrib.auth.models import User
+from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 import datetime
@@ -134,14 +134,6 @@ class Course(models.Model):
                 singlelesson.save()
 
         return course
-
-
-    """
-    It automatically associates the current course instance to CourseCatalog on each save()
-    """
-    @receiver(pre_save)
-    def pre_save_handler(instance, *args, **kwargs):
-        instance.coursecatalog = CourseCatalog.objects.all()[0]
 
 
 
