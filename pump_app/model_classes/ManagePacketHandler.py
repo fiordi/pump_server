@@ -1,4 +1,5 @@
 from pump_app.model_classes.Packet import Packet
+from pump_app.model_classes.PacketCatalog import PacketCatalog
 from django.http import HttpResponse, Http404, HttpRequest
 from django.views.generic import View
 from django.shortcuts import render
