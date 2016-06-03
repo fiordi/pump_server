@@ -172,6 +172,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 					packet = Packet.objects.get(pk=packet_pk)
 					sale.packets.add(packet)
 					sale.save()
+			sale.save()
 
 		serializer = SaleSerializer(sale)
 		return Response(serializer.data)

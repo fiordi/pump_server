@@ -119,7 +119,10 @@ class CompositeBestForCustomerPricingStrategy(CompositePricingStrategy):
 		for pricingStrategy in self.pricingStrategies:
 			[applied_strategy, amount] = pricingStrategy.getAmount(Sale)
 			Sale.amount = amount
-			Sale.applied_strategies = Counter(Sale.applied_strategies) + Counter(applied_strategy)
+			try:
+				Sale.applied_strategies = Counter(Sale.applied_strategies) + Counter(applied_strategy)
+			except:
+				Sale.applied_strategies = Counter(applied_strategy)
 
 
 
