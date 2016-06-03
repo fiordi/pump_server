@@ -111,7 +111,10 @@ class PacketViewSet(viewsets.ModelViewSet):
 
 		packets_not_subscribed =[]
 
-		subscription = request.user.customer.subscription
+		try:
+			subscription = request.user.customer.subscription
+		except:
+			subscription = None
 
 		if subscription:
 			for packet in packets:
@@ -121,8 +124,9 @@ class PacketViewSet(viewsets.ModelViewSet):
 				else:
 					packets_not_subscribed.append(packet)
 					packet.image = system_settings.relative_path_image_packet + os.path.basename(packet.image.name)
-
-		serializer = PacketSerializer_imageToText(packets_not_subscribed, many=True)
+			serializer = PacketSerializer_imageToText(packets_not_subscribed, many=True)
+		else:
+			serializer = PacketSerializer_imageToText(packets, many=True)
 
 		return Response(serializer.data)
 
