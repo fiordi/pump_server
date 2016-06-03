@@ -49,6 +49,7 @@ class ManageSaleHandler(View):
 
         Sale.amount_prediscount = prediscount_amount
         Sale.amount = Sale.amount_prediscount
+        Sale.applied_strategies = {}
 
         #dopo aver calcolato il prediscount_amount, valuto se ci sono strategie di sconto possibili da applicare
         CompositeBestForPricingStrategy = SalePricingStrategyFactory().getCompositeBestPricingStrategy()
