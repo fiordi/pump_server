@@ -10,6 +10,8 @@ import pump_site.sales_strategy
 properties = pump_site.sales_strategy
 
 
+
+
 """
 SalePricingStrategy class (Interface)
 """
@@ -17,6 +19,10 @@ class SalePricingStrategy(SingletonModel):
 
 	class Meta:
 		abstract = True
+
+
+
+
 
 """
 MorePacketsStrategy class
@@ -35,6 +41,10 @@ class MorePacketsStrategy(SingletonModel):
 			amount = Sale.amount
 			applied_strategy[self.__class__.__name__] = None
 		return [applied_strategy, amount]
+
+
+
+
 
 
 """
@@ -68,15 +78,22 @@ class CompositePricingStrategy(SingletonModel):
 
 	pricingStrategies = []
 
+
 	"""
 	It adds a new SalePricingStrategy
+
+	SalePricingStrategies => list(SalePricingStrategy)
 	"""
 	def add(self, SalePricingStrategies):
 		for SalePricingStrategy in SalePricingStrategies:
 			self.pricingStrategies.append(SalePricingStrategy)
 		return self
 
+	"""
+	It evals the Amount of a Sale
 
+	Sale => Sale
+	"""
 	def getAmount(self, Sale):
 		for pricingStrategy in self.pricingStrategies:
 			[applied_strategy, amount] = pricingStrategy.getAmount(Sale)
@@ -92,7 +109,11 @@ CompositeBestForCustomerPricingStrategy class
 """
 class CompositeBestForCustomerPricingStrategy(CompositePricingStrategy):
 
+	"""
+	It evals the Amount of a Sale
 
+	Sale => Sale
+	"""
 	def getAmount(self, Sale):
 		for pricingStrategy in self.pricingStrategies:
 			[applied_strategy, amount] = pricingStrategy.getAmount(Sale)
@@ -108,14 +129,18 @@ CompositeBestForStorePricingStrategy class
 """
 class CompositeBestForStorePricingStrategy(CompositePricingStrategy):
 
+	"""
+	It evals the Amount of a Sale
 
+	Sale => Sale
+	"""
 	def getAmount(self, Sale):
 
 		highestAmount = Decimal(0)
 
 		for pricingStrategy in self.pricingStrategies:
 			[applied_strategy, amount] = pricingStrategy.getAmount(Sale)
-			if amount is not Sale.amount:
+			if amount != Sale.amount:
 				highestAmount = max(highestAmount, amount)
 
 				if highestAmount is amount:
