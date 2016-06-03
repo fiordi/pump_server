@@ -35,7 +35,7 @@ class MorePacketsStrategy(SingletonModel):
 		applied_strategy = {}
 
 		if len(packets) >= properties.morePacketsStrategy_properties__min_number_of_packets:
-			amount = Sale.amount*(100-properties.morePacketsStrategy_properties__percentage_of_discount)/100
+			amount = Sale.amount_prediscount*(100-properties.morePacketsStrategy_properties__percentage_of_discount)/100
 			applied_strategy[self.__class__.__name__] = Sale.amount - amount
 		else:
 			amount = Sale.amount
@@ -80,13 +80,14 @@ class CompositePricingStrategy(SingletonModel):
 
 
 	"""
-	It adds a new SalePricingStrategy
+	It adds a new SalePricingStrategy if it doesn't exist into self.pricingStrategies
 
 	SalePricingStrategies => list(SalePricingStrategy)
 	"""
 	def add(self, SalePricingStrategies):
 		for SalePricingStrategy in SalePricingStrategies:
-			self.pricingStrategies.append(SalePricingStrategy)
+			if not any(isinstance(x, SalePricingStrategy.__class__) for x in self.pricingStrategies):
+				self.pricingStrategies.append(SalePricingStrategy)
 		return self
 
 	"""

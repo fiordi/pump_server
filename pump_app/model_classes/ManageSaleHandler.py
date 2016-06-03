@@ -25,8 +25,15 @@ class ManageSaleHandler(View):
         from pump_app.REST_classes.SaleViewSet import SaleViewSet
         return SaleViewSet
 
+    """
+    It evals and returns the Amount of a Sale, asking to SalePricingStrategyFactory
+    if there are some possible strategies to apply
 
-    def getTotal(self, Sale):
+    Sale => Sale()
+
+    :return Decimal()
+    """
+    def getAmount(self, Sale):
         from pump_app.model_classes.SalePricingStrategyFactory import SalePricingStrategyFactory
 
         try:
@@ -34,6 +41,7 @@ class ManageSaleHandler(View):
         except:
             packets = None
 
+        #calcolo il prediscount_amount come somma dei prezzi di tutti i pacchetti, se presenti
         prediscount_amount = Decimal(0)
         if packets:
             for packet in packets:
@@ -42,13 +50,15 @@ class ManageSaleHandler(View):
         Sale.amount_prediscount = prediscount_amount
         Sale.amount = Sale.amount_prediscount
 
-        #dopo aver aggiornato il timeStamp e i pacchetti, devo adottare la strategia di sconto
+        #dopo aver calcolato il prediscount_amount, valuto se ci sono strategie di sconto possibili da applicare
         CompositeBestForPricingStrategy = SalePricingStrategyFactory().getCompositeBestPricingStrategy()
         PricingStrategies = SalePricingStrategyFactory().getAllPricingStrategy()
 
         CompositeBestForPricingStrategy.add(PricingStrategies)
 
         CompositeBestForPricingStrategy.getAmount(Sale)
+
+        return Sale.amount
 
 
 
@@ -59,4 +69,4 @@ class ManageSaleHandler(View):
     def post_save_getTotal(sender, instance, *args, **kwargs):
         from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
 
-        ManageSaleHandler().getTotal(instance)
+        ManageSaleHandler().getAmount(instance)

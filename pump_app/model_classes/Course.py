@@ -27,7 +27,7 @@ class Course(models.Model):
 
     state = models.ForeignKey(CourseState, null=True, to_field='name', blank=False, related_name='courses')
 
-    coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.DO_NOTHING, related_name='courses')
+    coursecatalog = models.ForeignKey(CourseCatalog, null=True, blank=False, on_delete=models.SET_NULL, related_name='courses')
 
 
     """

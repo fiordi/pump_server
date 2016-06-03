@@ -21,7 +21,7 @@ class Customer(models.Model):
 
 	phone = PhoneNumberField(blank=True)
 
-	subscription = models.ForeignKey(Subscription, null=True, blank=True, on_delete=models.DO_NOTHING, related_name='customer')
+	subscription = models.ForeignKey(Subscription, null=True, blank=True, on_delete=models.SET_NULL, related_name='customer')
 
 	type = models.TextField(null=True, blank=False, default='Type of user')
 
