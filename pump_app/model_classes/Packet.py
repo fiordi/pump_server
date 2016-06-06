@@ -13,6 +13,7 @@ from decimal import *
 import pump_site.system_settings
 system_settings = pump_site.system_settings
 
+
 """
 Packet Class
 """
@@ -24,10 +25,6 @@ class Packet(models.Model):
     description = models.TextField(null=True, blank=False)
 
     price = models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0'))])
-
-    startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
-
-    endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     state = models.ForeignKey(PacketState, to_field='name', null=True, blank=False, related_name='packets')
 
@@ -58,11 +55,43 @@ class Packet(models.Model):
         self.name = name
         self.description = description
         self.price = price
-        self.startDate = startDate
-        self.endDate = endDate
         self.save()
 
 
 
     def __unicode__(self):
         return self.name + '(' + str(self.id) + ')'
+
+
+
+
+
+
+
+
+"""
+StandardPacket Class
+"""
+class StandardPacket(Packet):
+    durate = models.IntegerField(null=False, blank=False, default=1)
+
+    upperBoundary = models.DateTimeField(null=False, auto_now=False, auto_now_add=False)
+
+
+
+
+
+
+
+
+
+
+"""
+CustomPacket Class
+"""
+class CustomPacket(Packet):
+    startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
+
+    endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
+
+

@@ -67,8 +67,6 @@ class Migration(migrations.Migration):
                 ('name', models.TextField(default=b'Undefined', null=True)),
                 ('description', models.TextField(null=True)),
                 ('price', models.DecimalField(decimal_places=2, default=Decimal('0'), max_digits=12, null=True, validators=[django.core.validators.MinValueValidator(Decimal('0'))])),
-                ('startDate', models.DateTimeField(null=True)),
-                ('endDate', models.DateTimeField(null=True)),
                 ('image', models.ImageField(blank=True, null=True, upload_to=b'static/packet_images/')),
                 ('courses', models.ManyToManyField(blank=True, related_name='courses', to='pump_app.Course')),
             ],

@@ -1,4 +1,4 @@
-from pump_app.model_classes.Packet import Packet
+from pump_app.model_classes.Packet import Packet, StandardPacket, CustomPacket
 from rest_framework import serializers
 
 
@@ -11,7 +11,7 @@ class PacketSerializer(serializers.ModelSerializer):
 		model = Packet
 
 
-		fields = ('id', 'name', 'description', 'price', 'startDate', 'endDate','state', 'courses', 'image')
+		fields = ('id', 'name', 'description', 'price', 'state', 'courses', 'image')
 
 
 
@@ -24,5 +24,37 @@ class PacketSerializer_imageToText(serializers.ModelSerializer):
 
 	class Meta:
 		model = Packet
+
+		fields = ('id', 'name', 'description', 'price', 'startDate', 'endDate','state', 'courses', 'image')
+
+
+
+
+
+
+"""
+StandardPacketSerializer Class
+"""
+class StandardPacketSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = StandardPacket
+
+
+		fields = ('id', 'name', 'description', 'price', 'durate', 'upperBoundary', 'state', 'courses', 'image')
+
+
+
+
+
+
+"""
+CustomPacketSerializer Class
+"""
+class CustomPacketSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = CustomPacket
+
 
 		fields = ('id', 'name', 'description', 'price', 'startDate', 'endDate','state', 'courses', 'image')

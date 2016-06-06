@@ -2,7 +2,7 @@ from pump_app.model_classes.Customer import Customer, StudentCustomer, SeniorCus
 from pump_app.model_classes.CourseCatalog import CourseCatalog
 from pump_app.model_classes.Course import Course
 from pump_app.model_classes.PacketCatalog import PacketCatalog
-from pump_app.model_classes.Packet import Packet
+from pump_app.model_classes.Packet import Packet, StandardPacket, CustomPacket
 from pump_app.model_classes.Sale import Sale
 from pump_app.model_classes.Subscription import Subscription
 from pump_app.model_classes.SingleLesson import SingleLesson

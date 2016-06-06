@@ -1,7 +1,7 @@
-from pump_app.model_classes.Packet import Packet
+from pump_app.model_classes.Packet import Packet, StandardPacket, CustomPacket
 import django_filters
 from rest_framework import viewsets, permissions, filters, generics
-from pump_app.REST_classes.PacketSerializer import PacketSerializer, PacketSerializer_imageToText
+from pump_app.REST_classes.PacketSerializer import PacketSerializer, PacketSerializer_imageToText, CustomPacketSerializer, StandardPacketSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -61,6 +61,29 @@ class PacketViewSet(viewsets.ModelViewSet):
 
 		serializer = PacketSerializer(packet)
 		return Response(serializer.data)
+
+
+
+
+
+	"""
+	It overrides __create__ of REST API in order to create a Standard Packet or Customer Packet based on user request
+
+	request => HttpRequest()
+
+	:return Response()
+	"""
+	def create(self, request):
+		if request.data.get('type') is CustomPacket.__class__.__name__:
+			serializer = CustomPacketSerializer(data=request.data)
+		if request.data.get('type') is StandardPacket.__class__.__name__:
+			serializer = StandardPacketSerializer(data=request.data)
+
+		if serializer.is_valid():
+			serializer.save()
+
+		return Response(serializer.data)
+
 
 
 

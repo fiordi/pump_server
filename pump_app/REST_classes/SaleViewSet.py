@@ -75,9 +75,6 @@ class SaleViewSet(viewsets.ModelViewSet):
 
 
 
-
-
-
 	"""
 	It creates a new route rule which checks if Sale can be completed and, if so, creates a new Subscription or updates existing
 
