@@ -74,9 +74,9 @@ class PacketViewSet(viewsets.ModelViewSet):
 	:return Response()
 	"""
 	def create(self, request):
-		if request.data.get('type') is CustomPacket.__class__.__name__:
+		if request.data.get('type') == CustomPacket().__class__.__name__:
 			serializer = CustomPacketSerializer(data=request.data)
-		if request.data.get('type') is StandardPacket.__class__.__name__:
+		elif request.data.get('type') == StandardPacket().__class__.__name__:
 			serializer = StandardPacketSerializer(data=request.data)
 
 		if serializer.is_valid():

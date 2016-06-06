@@ -25,7 +25,7 @@ class PacketSerializer_imageToText(serializers.ModelSerializer):
 	class Meta:
 		model = Packet
 
-		fields = ('id', 'name', 'description', 'price', 'startDate', 'endDate','state', 'courses', 'image')
+		fields = ('id', 'name', 'description', 'price', 'state', 'courses', 'image')
 
 
 
