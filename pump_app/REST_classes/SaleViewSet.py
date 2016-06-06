@@ -163,6 +163,8 @@ class SaleViewSet(viewsets.ModelViewSet):
 		if serializer.is_valid():
 			packets = request.data.get('packets')
 			sale.packets.clear()
+			#ogni volta che faccio un patch, cancello e rivaluto tutte le SaleLineItems
+			SaleLineItem.objects.filter(sale=sale).delete()
 			for packet_pk, quantity in packets.iteritems():
 				if subscription and ManageSubscriptionHandler().checkPacketInSubscription(subscription, packet_pk):
 					pass
