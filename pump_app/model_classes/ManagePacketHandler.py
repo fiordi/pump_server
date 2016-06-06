@@ -36,3 +36,5 @@ It automatically associates the current packet instance to PacketCatalog on each
 @receiver(post_save, sender=Packet)
 def post_save_handler(sender, instance, *args, **kwargs):
     instance.packetcatalog = PacketCatalog.objects.all()[0]
+
+

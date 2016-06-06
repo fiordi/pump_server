@@ -85,8 +85,8 @@ class PacketViewSet(viewsets.ModelViewSet):
 			image_path = system_settings.relative_path_image_packet + os.path.basename(packet.image.name)
 		else:
 			if not request.data.get('image'):
-				packet.image = None
-				image_path = None
+				packet.image = 'no_image.png'
+				image_path = system_settings.relative_path_image_packet + os.path.basename(packet.image.name)
 
 		packet.save()
 

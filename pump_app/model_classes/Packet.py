@@ -35,7 +35,7 @@ class Packet(models.Model):
 
     courses = models.ManyToManyField(Course, blank=True, related_name='courses')
 
-    image = models.ImageField(upload_to=system_settings.relative_path_image_packet, max_length=100, null=True, blank=False, default='static/packet_images/no_image.png')
+    image = models.ImageField(upload_to=system_settings.relative_path_image_packet, null=True, blank=True, default='static/packet_images/no_image.png')
 
 
 
