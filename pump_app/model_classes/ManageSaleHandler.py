@@ -63,6 +63,7 @@ class ManageSaleHandler(View):
 
 
 
+
     """
     It automatically calculates the amount of the sale (following strategies, if available) on each save()
     """

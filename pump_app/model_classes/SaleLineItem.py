@@ -12,7 +12,7 @@ class SaleLineItem(models.Model):
 
     packet = models.ForeignKey(Packet, blank=True, related_name='saleslineitems')
 
-    quantity = models.IntegerKey(null=False, blank=False, default=0)
+    quantity = models.IntegerField(null=False, blank=False, default=0)
 
 
     """

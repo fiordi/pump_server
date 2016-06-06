@@ -41,7 +41,7 @@ class StandardPacketSerializer(serializers.ModelSerializer):
 		model = StandardPacket
 
 
-		fields = ('id', 'name', 'description', 'price', 'durate', 'upperBoundary', 'state', 'courses', 'image')
+		fields = ('id', 'name', 'description', 'price', 'durate', 'expiringDate', 'state', 'courses', 'image')
 
 
 
