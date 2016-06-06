@@ -146,6 +146,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 	def patch_packets(self, request, pk=None):
 		from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
 		from pump_app.model_classes.Packet import Packet
+		from pump_app.model_classes.SaleLineItem import SaleLineItem
 
 		queryset = Sale.objects.all()
 		sale = get_object_or_404(queryset, pk=pk)
@@ -160,15 +161,16 @@ class SaleViewSet(viewsets.ModelViewSet):
 			subscription = None
 
 		if serializer.is_valid():
-			packets_pk = request.data.get('packets')
+			packets = request.data.get('packets')
 			sale.packets.clear()
-			for packet_pk in packets_pk:
+			for packet_pk, quantity in packets.iteritems():
 				if subscription and ManageSubscriptionHandler().checkPacketInSubscription(subscription, packet_pk):
 					pass
 				else:
 					packet = Packet.objects.get(pk=packet_pk)
-					sale.packets.add(packet)
-					sale.save()
+					salelineitem = SaleLineItem(sale=sale, packet=packet, quantity=quantity)
+					salelineitem.save()
+
 			sale.save()
 
 		serializer = SaleSerializer(sale)

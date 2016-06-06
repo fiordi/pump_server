@@ -35,17 +35,17 @@ class ManageSaleHandler(View):
     """
     def getAmount(self, Sale):
         from pump_app.model_classes.SalePricingStrategyFactory import SalePricingStrategyFactory
+        from pump_app.model_classes.SaleLineItem import SaleLineItem
 
-        try:
-            packets = Sale.packets.all()
-        except:
-            packets = None
 
-        #calcolo il prediscount_amount come somma dei prezzi di tutti i pacchetti, se presenti
+        #recupero tutte le SaleLineItem associate alla sale e calcolo il totale prediscount
         prediscount_amount = Decimal(0)
-        if packets:
-            for packet in packets:
-                prediscount_amount = prediscount_amount + packet.price
+        salelineitems = SaleLineItem.objects.filter(sale=Sale)
+        if salelineitems:
+            for salelineitem in salelineitems:
+                subamount = salelineitem.getSubAmount()
+                prediscount_amount = prediscount_amount + subamount
+
 
         Sale.amount_prediscount = prediscount_amount
         Sale.amount = Sale.amount_prediscount

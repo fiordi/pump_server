@@ -75,7 +75,7 @@ StandardPacket Class
 class StandardPacket(Packet):
     durate = models.IntegerField(null=False, blank=False, default=1)
 
-    upperBoundary = models.DateTimeField(null=False, auto_now=False, auto_now_add=False)
+    expiringDate = models.DateTimeField(null=False, auto_now=False, auto_now_add=False)
 
 
 
