@@ -170,6 +170,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 					packet = Packet.objects.get(pk=packet_pk)
 					salelineitem = SaleLineItem(sale=sale, packet=packet, quantity=quantity)
 					salelineitem.save()
+					sale.save()
 
 			sale.save()
 
