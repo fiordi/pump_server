@@ -2,10 +2,13 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 from pump_app.model_classes.PacketCatalog import PacketCatalog
 from pump_app.model_classes.PacketPrototype import PacketPrototype
 from pump_app.model_classes.PacketState import PacketState
 from pump_app.model_classes.Course import Course
+
 import datetime
 from decimal import *
 
@@ -34,8 +37,7 @@ class Packet(models.Model):
 
     image = models.ImageField(upload_to=system_settings.relative_path_image_packet, null=True, blank=True, default='static/packet_images/no_image.png')
 
-
-
+    type = models.TextField(null=True, blank=False, default='Type of packet')
 
 
     """
@@ -73,11 +75,17 @@ class Packet(models.Model):
 StandardPacket Class
 """
 class StandardPacket(Packet):
-    durate = models.IntegerField(null=False, blank=False, default=1)
+    durate = models.IntegerField(null=False, blank=False, default=30)
 
     expiringDate = models.DateTimeField(null=False, auto_now=False, auto_now_add=False)
 
 
+    """
+    It automatically associates the class_name to type field on each save()
+    """
+    @receiver(pre_save)
+    def pre_save_handler(sender, instance, *args, **kwargs):
+        instance.type = instance.__class__.__name__
 
 
 
@@ -93,5 +101,12 @@ class CustomPacket(Packet):
     startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
+
+    """
+    It automatically associates the class_name to type field on each save()
+    """
+    @receiver(pre_save)
+    def pre_save_handler(sender, instance, *args, **kwargs):
+        instance.type = instance.__class__.__name__
 
 

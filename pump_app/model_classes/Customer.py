@@ -39,7 +39,7 @@ StudentCustomer class (extends Customer)
 class StudentCustomer(Customer):
 
 	"""
-	It automatically associates the class_name to name field on each save()
+	It automatically associates the class_name to type field on each save()
 	"""
 	@receiver(pre_save)
 	def pre_save_handler(sender, instance, *args, **kwargs):
@@ -55,7 +55,7 @@ SeniorCustomer class (extends Customer)
 class SeniorCustomer(Customer):
 
 	"""
-	It automatically associates the class_name to name field on each save()
+	It automatically associates the class_name to type field on each save()
 	"""
 	@receiver(pre_save)
 	def pre_save_handler(sender, instance, *args, **kwargs):

@@ -104,12 +104,18 @@ class SaleViewSet(viewsets.ModelViewSet):
 		else:
 			subscription = ManageSubscriptionHandler().makeNewSubscription()
 
+		try:
+			packets = subscription.packets.all() + sale.packets.all()
+		except:
+			packets = sale.packets.all()
 
-		packets = Counter(subscription.packets.all()) + Counter(sale.packets.all())
 
+		startdate_subscription = ManageSubscriptionHandler().evalStartDate(packets, sale)
 
-		startdate_subscription = ManageSubscriptionHandler().evalStartDate(packets, sale.dateTime)
-		enddate_subscription = ManageSubscriptionHandler().evalEndDate(packets)
+		enddate_standard_subscription = ManageSubscriptionHandler().evalEndDateStandardPacket(packets, sale)
+		enddate_custom_subscription = ManageSubscriptionHandler().evalEndDateStandardPacket(packets, sale)
+
+		enddate_subscription = max(enddate_standard_subscription, enddate_custom_subscription)
 
 		for packet in packets:
 			subscription.packets.add(packet)
@@ -171,6 +177,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 				else:
 					packet = Packet.objects.get(pk=packet_pk)
 					salelineitem = SaleLineItem(sale=sale, packet=packet, quantity=quantity)
+					sale.packets.add(packet)
 					salelineitem.save()
 					sale.save()
 

@@ -18,9 +18,9 @@ class Sale(models.Model):
 
     dateTime = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
-    amount_prediscount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0'))])
+    amount_prediscount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=7, validators=[MinValueValidator(Decimal('0'))])
 
-    amount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=12, validators=[MinValueValidator(Decimal('0'))])
+    amount =  models.DecimalField(null=True, default=Decimal('0'), decimal_places=2, max_digits=7, validators=[MinValueValidator(Decimal('0'))])
 
     applied_strategies = PickledObjectField(null=True, blank=True, default= {})
 

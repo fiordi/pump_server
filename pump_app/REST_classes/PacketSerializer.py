@@ -6,12 +6,13 @@ from rest_framework import serializers
 PacketSerializer Class
 """
 class PacketSerializer(serializers.ModelSerializer):
+	type = serializers.CharField(allow_blank=True)
 
 	class Meta:
 		model = Packet
 
 
-		fields = ('id', 'name', 'description', 'price', 'state', 'courses', 'image')
+		fields = ('id', 'name', 'description', 'price', 'state', 'courses', 'image', 'type')
 
 
 
