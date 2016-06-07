@@ -41,7 +41,7 @@ class StandardPacketSerializer(serializers.ModelSerializer):
 		model = StandardPacket
 
 
-		fields = ('id', 'name', 'description', 'price', 'durate', 'expiringDate', 'state', 'courses', 'image')
+		fields = ('id', 'name', 'description', 'price', 'durate', 'expiringDate', 'state', 'courses', 'image', 'type')
 
 
 
@@ -57,4 +57,4 @@ class CustomPacketSerializer(serializers.ModelSerializer):
 		model = CustomPacket
 
 
-		fields = ('id', 'name', 'description', 'price', 'startDate', 'endDate','state', 'courses', 'image')
+		fields = ('id', 'name', 'description', 'price', 'startDate', 'endDate','state', 'courses', 'image', 'type')
