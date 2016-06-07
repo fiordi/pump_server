@@ -2,8 +2,6 @@ from pump_app.model_classes.Sale import Sale
 from django.http import HttpResponse, Http404, HttpRequest
 from django.views.generic import View
 from django.shortcuts import render
-from django.db.models.signals import pre_save, post_save
-from django.dispatch import receiver
 from copy import deepcopy
 from collections import Counter
 from decimal import *
@@ -60,15 +58,3 @@ class ManageSaleHandler(View):
         CompositeBestForPricingStrategy.getAmount(Sale)
 
         return Sale.amount
-
-
-
-
-    """
-    It automatically calculates the amount of the sale (following strategies, if available) on each save()
-    """
-    @receiver(post_save, sender=Sale)
-    def post_save_getTotal(sender, instance, *args, **kwargs):
-        from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
-
-        ManageSaleHandler().getAmount(instance)

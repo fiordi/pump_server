@@ -6,7 +6,6 @@ from rest_framework import serializers
 PacketSerializer Class
 """
 class PacketSerializer(serializers.ModelSerializer):
-	type = serializers.CharField(allow_blank=True, required=False)
 
 	class Meta:
 		model = Packet
@@ -22,7 +21,6 @@ PacketSerializer_imageToText Class
 """
 class PacketSerializer_imageToText(serializers.ModelSerializer):
 	image = serializers.CharField()
-	type = serializers.CharField(allow_blank=True, required=False)
 
 	class Meta:
 		model = Packet

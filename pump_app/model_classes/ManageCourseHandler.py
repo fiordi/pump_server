@@ -88,14 +88,3 @@ class ManageCourseHandler(View):
             courseNotModified = Course.objects.get(pk = courseID)
             courseModified = courseNotModified.clone()
             return HttpResponse(courseModified.pk)
-
-
-"""
-It automatically associates the current course instance to CourseCatalog on each save()
-"""
-
-@receiver(post_save, sender=Course)
-def post_save_handler(sender, instance, *args, **kwargs):
-    from pump_app.model_classes.CourseCatalog import CourseCatalog
-
-    instance.coursecatalog = CourseCatalog.objects.all()[0]

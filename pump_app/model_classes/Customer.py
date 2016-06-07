@@ -1,8 +1,6 @@
 from django.contrib.auth.models import User
 from pump_app.model_classes.Subscription import Subscription
 from django.db import models
-from django.db.models.signals import pre_save, post_save
-from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
 
 """
@@ -37,14 +35,7 @@ class Customer(models.Model):
 StudentCustomer class (extends Customer)
 """
 class StudentCustomer(Customer):
-
-	"""
-	It automatically associates the class_name to type field on each save()
-	"""
-	@receiver(pre_save)
-	def pre_save_handler(sender, instance, *args, **kwargs):
-		instance.type = instance.__class__.__name__
-
+	pass
 
 
 
@@ -53,11 +44,5 @@ class StudentCustomer(Customer):
 SeniorCustomer class (extends Customer)
 """
 class SeniorCustomer(Customer):
-
-	"""
-	It automatically associates the class_name to type field on each save()
-	"""
-	@receiver(pre_save)
-	def pre_save_handler(sender, instance, *args, **kwargs):
-		instance.type = instance.__class__.__name__
+	pass
 

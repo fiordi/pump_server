@@ -79,17 +79,6 @@ class StandardPacket(Packet):
     expiringDate = models.DateTimeField(null=False, auto_now=False, auto_now_add=False)
 
 
-    """
-    It automatically associates the class_name to type field on each save()
-    """
-    @receiver(pre_save)
-    def pre_save_handler(sender, instance, *args, **kwargs):
-        instance.type = instance.__class__.__name__
-
-
-
-
-
 
 
 
@@ -100,12 +89,5 @@ class CustomPacket(Packet):
     startDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
 
     endDate = models.DateTimeField(null=True, auto_now=False, auto_now_add=False)
-
-    """
-    It automatically associates the class_name to type field on each save()
-    """
-    @receiver(pre_save)
-    def pre_save_handler(sender, instance, *args, **kwargs):
-        instance.type = instance.__class__.__name__
 
 

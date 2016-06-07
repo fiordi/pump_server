@@ -28,13 +28,4 @@ class ManagePacketHandler(View):
         return PacketViewSet
 
 
-"""
-It automatically associates the current packet instance to PacketCatalog on each save()
-"""
-@receiver(post_save, sender=Packet)
-def post_save_handler(sender, instance, *args, **kwargs):
-    from pump_app.model_classes.PacketCatalog import PacketCatalog
-
-    instance.packetcatalog = PacketCatalog.objects.all()[0]
-
 

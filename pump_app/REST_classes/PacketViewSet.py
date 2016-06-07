@@ -32,13 +32,23 @@ class PacketViewSet(viewsets.ModelViewSet):
 	"""
 	def list(self, request):
 		queryset = Packet.objects.all()
+		response_data = []
 
 		for packet in queryset:
 			if packet.image:
 				packet.image = system_settings.relative_path_image_packet + os.path.basename(packet.image.name)
 
-		serializer = PacketSerializer(queryset, many=True)
-		return Response(serializer.data)
+			if StandardPacket.objects.filter(pk=packet):
+				standard_packet = StandardPacket.objects.get(pk=packet)
+				serializer = StandardPacketSerializer(standard_packet)
+			elif CustomPacket.objects.filter(pk=packet):
+				custom_packet = CustomPacket.objects.get(pk=packet)
+				serializer = CustomPacketSerializer(custom_packet)
+
+			response_data.append(serializer.data)
+
+
+		return Response(response_data)
 
 
 
@@ -59,7 +69,13 @@ class PacketViewSet(viewsets.ModelViewSet):
 		if packet.image:
 			packet.image = system_settings.relative_path_image_packet + os.path.basename(packet.image.name)
 
-		serializer = PacketSerializer(packet)
+		if StandardPacket.objects.filter(pk=packet):
+			standard_packet = StandardPacket.objects.get(pk=packet)
+			serializer = StandardPacketSerializer(standard_packet)
+		elif CustomPacket.objects.filter(pk=packet):
+			custom_packet = CustomPacket.objects.get(pk=packet)
+			serializer = CustomPacketSerializer(custom_packet)
+
 		return Response(serializer.data)
 
 
@@ -78,6 +94,7 @@ class PacketViewSet(viewsets.ModelViewSet):
 			serializer = CustomPacketSerializer(data=request.data)
 		elif request.data.get('type') == StandardPacket().__class__.__name__:
 			serializer = StandardPacketSerializer(data=request.data)
+
 
 		if serializer.is_valid():
 			serializer.save()
