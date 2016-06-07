@@ -70,7 +70,6 @@ class Packet(models.Model):
 
 
 
-
 """
 StandardPacket Class
 """
