@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'solo', #Singleton Libraries
-    'pump_app',
+    'course',
+    'packet',
+    'sale',
+    'subscription'
 ]
 
 ##CROSS DOMAIN REQUEST SETTINGS (TO BE DELETED WHEN DEBUG IS FINISHED!)

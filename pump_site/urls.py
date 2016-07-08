@@ -24,9 +24,9 @@ urlpatterns = [
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 #requests for OUR handlers
-from pump_app.views import ManageCourseHandler
-from pump_app.views import ManagePacketHandler
-from pump_app.views import ManageSaleHandler
+from course.views import ManageCourseHandler
+from packet.views import ManagePacketHandler
+from sale.views import ManageSaleHandler
 
 urlpatterns.extend([
     url(r'^course/makenewcourse', ManageCourseHandler().makeNewCourse),
@@ -36,9 +36,12 @@ urlpatterns.extend([
 
 
 #requests to be redirected to REST FRAMEWORK handlers
-from rest_framework import routers
 from django.conf.urls import url, include
-from pump_app.REST_classes import CourseViewSet, PacketViewSet, SingleLessonViewSet, RepeatedLessonViewSet , SaleViewSet, CustomerViewSet, SubscriptionViewSet
+from rest_framework import routers
+from course.REST_classes import CourseViewSet, SingleLessonViewSet, RepeatedLessonViewSet
+from packet.REST_classes import PacketViewSet
+from sale.REST_classes import SaleViewSet
+from subscription.REST_classes import CustomerViewSet, SubscriptionViewSet
 
 router = routers.DefaultRouter()
 router.register(r'course', CourseViewSet.CourseViewSet)
