@@ -28,4 +28,19 @@ class ManagePacketHandler(View):
         return PacketViewSet
 
 
+    """
+    It returns a Packet with given pk, if exists
+
+    packet_pk => int
+
+    :return viewsets.ModelViewSet()
+    """
+    def getPacket(self, packet_pk):
+        try:
+            packet = Packet.objects.get(pk=packet_pk)
+        except:
+            packet = None
+        return packet
+
+
 

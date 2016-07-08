@@ -57,17 +57,14 @@ class SaleViewSet(viewsets.ModelViewSet):
 	:return Response()
 	"""
 	def create(self, request, pk=None):
-
-		sale = Sale()
+		from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
 
 		serializer = SaleSerializer(data=request.data)
 
 		logged_user = request.user
 
 		if serializer.is_valid() and logged_user.is_authenticated():
-			sale.dateTime = datetime.datetime.now()
-			sale.user = logged_user.customer
-			sale.save()
+			sale = ManageSaleHandler().makeNewSale(logged_user)
 
 		serializer = SaleSerializer(sale)
 		return Response(serializer.data)
@@ -86,8 +83,6 @@ class SaleViewSet(viewsets.ModelViewSet):
 	@detail_route(methods=['get'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,))
 	def confirm_sale(self, request, pk=None):
 		from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
-		from pump_app.model_classes.SubscriptionState import SubscriptionActive
-		from pump_app.model_classes.SaleState import SaleCompleted, SaleState
 
 		queryset = Sale.objects.all()
 		sale = get_object_or_404(queryset, pk=pk)
@@ -109,27 +104,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 		except:
 			packets = sale.packets.all()
 
-
-		startdate_subscription = ManageSubscriptionHandler().evalStartDate(packets, sale)
-
-		enddate_standard_subscription = ManageSubscriptionHandler().evalEndDateStandardPacket(packets, sale)
-		enddate_custom_subscription = ManageSubscriptionHandler().evalEndDateStandardPacket(packets, sale)
-
-		enddate_subscription = max(enddate_standard_subscription, enddate_custom_subscription)
-
-		for packet in packets:
-			subscription.packets.add(packet)
-
-		subscription.startDate = startdate_subscription
-		subscription.endDate = enddate_subscription
-		subscription.state = SubscriptionActive.objects.all()[0]
-		subscription.save()
-
-		customer.subscription = subscription
-		customer.save()
-
-		sale.state = SaleCompleted.objects.all()[0]
-		sale.save()
+		sale = ManageSubscriptionHandler().confirmSale(subscription, customer, packets, sale)
 
 
 		serializer = SaleSerializer(sale)
@@ -141,7 +116,7 @@ class SaleViewSet(viewsets.ModelViewSet):
 
 
 	"""
-	It checks if a Packet can be added to a Sale and, if so, does it
+	It checks if a Packet can be added to a Sale and, if so, does it, calculating the new amount
 
 	request => HttpRequest()
 	pk => Integer
@@ -150,38 +125,16 @@ class SaleViewSet(viewsets.ModelViewSet):
 	"""
 	@detail_route(methods=['put', 'patch'], permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,))
 	def patch_packets(self, request, pk=None):
-		from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
-		from pump_app.model_classes.Packet import Packet
-		from pump_app.model_classes.SaleLineItem import SaleLineItem
+		from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
 
 		queryset = Sale.objects.all()
 		sale = get_object_or_404(queryset, pk=pk)
 
 		serializer = SaleSerializer_packets_field(data=request.data)
 
-		customer = request.user.customer
-
-		try:
-			subscription = customer.subscription
-		except:
-			subscription = None
-
 		if serializer.is_valid():
-			packets = request.data.get('packets')
-			sale.packets.clear()
-			#ogni volta che faccio un patch, cancello e rivaluto tutte le SaleLineItems
-			SaleLineItem.objects.filter(sale=sale).delete()
-			for packet_pk, quantity in packets.iteritems():
-				if subscription and ManageSubscriptionHandler().checkPacketInSubscription(subscription, packet_pk):
-					pass
-				else:
-					packet = Packet.objects.get(pk=packet_pk)
-					salelineitem = SaleLineItem(sale=sale, packet=packet, quantity=quantity)
-					sale.packets.add(packet)
-					salelineitem.save()
-					sale.save()
-
-			sale.save()
+			packets_sale = request.data.get('packets')
+			ManageSaleHandler().addPacketList(sale, packets_sale)
 
 		serializer = SaleSerializer(sale)
 		return Response(serializer.data)

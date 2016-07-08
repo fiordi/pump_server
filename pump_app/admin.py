@@ -7,6 +7,7 @@ from pump_app.models import PacketCatalog
 from pump_app.models import SingleLesson
 from pump_app.models import RepeatedLesson
 from pump_app.models import Sale
+from pump_app.models import SaleLineItem
 from pump_app.models import Subscription
 from pump_app.models import StudentCustomer, SeniorCustomer
 #from pump_app.models import PacketActivated, PacketDeactivated, PacketIncomplete
@@ -23,6 +24,7 @@ admin.site.register(CustomPacket)
 admin.site.register(SingleLesson)
 admin.site.register(RepeatedLesson)
 admin.site.register(Sale)
+admin.site.register(SaleLineItem)
 admin.site.register(Subscription)
 admin.site.register(StudentCustomer)
 admin.site.register(SeniorCustomer)

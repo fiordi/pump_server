@@ -147,26 +147,14 @@ class PacketViewSet(viewsets.ModelViewSet):
 	def not_subscr_packets(self, request):
 		from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
 
-		packets = Packet.objects.all()
-
-		packets_not_subscribed =[]
-
 		try:
 			subscription = request.user.customer.subscription
 		except:
 			subscription = None
 
-		if subscription:
-			for packet in packets:
-				packet_pk = packet.id
-				if ManageSubscriptionHandler().checkPacketInSubscription(subscription, packet_pk):
-					pass
-				else:
-					packets_not_subscribed.append(packet)
-					packet.image = system_settings.relative_path_image_packet + os.path.basename(packet.image.name)
-			serializer = PacketSerializer_imageToText(packets_not_subscribed, many=True)
-		else:
-			serializer = PacketSerializer_imageToText(packets, many=True)
+		packets_not_subscribed = ManageSubscriptionHandler().getNotSubscribedPackets(subscription)
+
+		serializer = PacketSerializer_imageToText(packets_not_subscribed, many=True)
 
 		return Response(serializer.data)
 

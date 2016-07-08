@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'django_filters',
     'crispy_forms',
     'rest_framework',
@@ -170,3 +171,9 @@ STATICFILES_DIRS = (
 )
 
 
+# Graph models (used for reverse engineering from model to UML)
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}

@@ -29,16 +29,16 @@ MorePacketsStrategy class
 """
 class MorePacketsStrategy(SingletonModel):
 
-	def getAmount(self, Sale):
-		packets = Sale.packets.all()
+	def getAmount(self, sale):
+		packets = sale.packets.all()
 
 		applied_strategy = {}
 
 		if len(packets) >= properties.morePacketsStrategy_properties__min_number_of_packets:
-			amount = Sale.amount_prediscount*(100-properties.morePacketsStrategy_properties__percentage_of_discount)/100
-			applied_strategy[self.__class__.__name__] = Sale.amount - amount
+			amount = sale.amount_prediscount*(100-properties.morePacketsStrategy_properties__percentage_of_discount)/100
+			applied_strategy[self.__class__.__name__] = sale.amount - amount
 		else:
-			amount = Sale.amount
+			amount = sale.amount
 			applied_strategy[self.__class__.__name__] = None
 		return [applied_strategy, amount]
 
@@ -52,7 +52,7 @@ StudentCustomerStrategy class
 """
 class StudentCustomerStrategy(SingletonModel):
 
-	def getAmount(self, Sale):
+	def getAmount(self, sale):
 		from pump_app.model_classes.Customer import StudentCustomer
 
 		applied_strategy = {}
@@ -63,10 +63,10 @@ class StudentCustomerStrategy(SingletonModel):
 			studentcustomer = None
 
 		if studentcustomer:
-			amount = Decimal(Sale.amount*(100-properties.studentCustomerStrategy_properties__percentage_of_discount)/100)
-			applied_strategy[self.__class__.__name__] = Sale.amount - amount
+			amount = Decimal(sale.amount*(100-properties.studentCustomerStrategy_properties__percentage_of_discount)/100)
+			applied_strategy[self.__class__.__name__] = sale.amount - amount
 		else:
-			amount = Sale.amount
+			amount = sale.amount
 			applied_strategy[self.__class__.__name__] = None
 		return [applied_strategy, amount]
 
@@ -90,16 +90,19 @@ class CompositePricingStrategy(SingletonModel):
 				self.pricingStrategies.append(SalePricingStrategy)
 		return self
 
+
+
+
 	"""
 	It evals the Amount of a Sale
 
 	Sale => Sale
 	"""
-	def getAmount(self, Sale):
+	def getAmount(self, sale):
 		for pricingStrategy in self.pricingStrategies:
-			[applied_strategy, amount] = pricingStrategy.getAmount(Sale)
-			Sale.amount = amount
-			Sale.applied_strategies = Counter(Sale.applied_strategies) + Counter(applied_strategy)
+			[applied_strategy, amount] = pricingStrategy.getAmount(sale)
+			sale.amount = amount
+			sale.applied_strategies = Counter(sale.applied_strategies) + Counter(applied_strategy)
 
 
 

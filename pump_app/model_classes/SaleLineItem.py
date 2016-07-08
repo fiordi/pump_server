@@ -8,11 +8,26 @@ SaleLineItems Class
 class SaleLineItem(models.Model):
     id = models.AutoField(primary_key=True)
 
-    sale = models.ForeignKey(Sale, blank=True, related_name='saleslineitems')
+    sale = models.ForeignKey(Sale, null=True, blank=True, related_name='saleslineitems')
 
-    packet = models.ForeignKey(Packet, blank=True, related_name='saleslineitems')
+    packet = models.ForeignKey(Packet, null=True, blank=True, related_name='saleslineitems')
 
     quantity = models.IntegerField(null=False, blank=False, default=0)
+
+    """
+    It creates a new SaleLineItem instance
+
+    packet => Packet()
+    quantity => int
+
+    :return SaleLineItem()
+    """
+    def makeNewSaleLineItem(self, packet, quantity):
+        self.packet = packet
+        self.quantity = quantity
+        self.save()
+        return self
+
 
 
     """

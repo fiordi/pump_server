@@ -23,8 +23,17 @@ class Customer(models.Model):
 
 	type = models.TextField(null=True, blank=False, default='Type of user')
 
+
+	def setSubscription(self, subscription):
+		self.subscription = subscription
+		self.save()
+		return self.subscription
+
+
 	def __unicode__(self):
 		return self.name
+
+
 
 
 

@@ -24,10 +24,17 @@ class SalePricingStrategyFactory(SingletonModel):
 
 	def getCompositeBestPricingStrategy(self):
 		from pump_app.model_classes.SalePricingStrategy import CompositeBestForStorePricingStrategy, CompositeBestForCustomerPricingStrategy
+
+		compositepricingstrategy = None
 		if properties.sales_strategy_properties__compositebestfor == 'store':
-			return CompositeBestForStorePricingStrategy()
+			compositepricingstrategy = CompositeBestForStorePricingStrategy()
 		if properties.sales_strategy_properties__compositebestfor == 'customer':
-			return CompositeBestForCustomerPricingStrategy()
+			compositepricingstrategy = CompositeBestForCustomerPricingStrategy()
+
+		pricingstrategies = self.getAllPricingStrategy()
+		compositepricingstrategy.add(pricingstrategies)
+
+		return compositepricingstrategy
 
 
 

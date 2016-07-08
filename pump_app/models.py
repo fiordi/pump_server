@@ -1,13 +1,32 @@
 from pump_app.model_classes.Customer import Customer, StudentCustomer, SeniorCustomer
 from pump_app.model_classes.CourseCatalog import CourseCatalog
 from pump_app.model_classes.Course import Course
+from pump_app.model_classes.CoursePrototype import CoursePrototype
+from pump_app.model_classes.CourseState import CourseState, CourseActivated, CourseDeactivated, CourseIncomplete, CourseTrashed
+from pump_app.model_classes.Lesson import Lesson
+from pump_app.model_classes.LessonFactory import LessonFactory
+from pump_app.model_classes.ManageCourseHandler import ManageCourseHandler
+from pump_app.model_classes.ManagePacketHandler import ManagePacketHandler
+from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
+from pump_app.model_classes.ManageSubscriptionHandler import ManageSubscriptionHandler
 from pump_app.model_classes.PacketCatalog import PacketCatalog
 from pump_app.model_classes.Packet import Packet, StandardPacket, CustomPacket
 from pump_app.model_classes.Sale import Sale
+from pump_app.model_classes.SalePricingStrategyFactory import SalePricingStrategyFactory
+from pump_app.model_classes.SalePricingStrategy import SalePricingStrategy, StudentCustomerStrategy, MorePacketsStrategy, CompositePricingStrategy, CompositeBestForCustomerPricingStrategy, CompositeBestForStorePricingStrategy
 from pump_app.model_classes.SaleLineItem import SaleLineItem
+from pump_app.model_classes.SubscriptionState import SubscriptionState, SubscriptionActive, SubscriptionInactive, SubscriptionIncomplete
 from pump_app.model_classes.Subscription import Subscription
+from pump_app.model_classes.SingleLessonFactory import SingleLessonFactory
 from pump_app.model_classes.SingleLesson import SingleLesson
+from pump_app.model_classes.RepeatedLessonFactory import RepeatedLessonFactory
 from pump_app.model_classes.RepeatedLesson import RepeatedLesson
-from pump_app.model_classes.CourseState import CourseActivated, CourseDeactivated, CourseIncomplete, CourseTrashed
-from pump_app.model_classes.PacketState import PacketActivated, PacketDeactivated, PacketIncomplete
-from pump_app.model_classes.SaleState import SaleCompleted, SaleIncomplete, SaleCancelled
+from pump_app.model_classes.PacketState import PacketState, PacketActivated, PacketDeactivated, PacketIncomplete
+from pump_app.model_classes.SaleState import SaleState, SaleCompleted, SaleIncomplete, SaleCancelled
+
+
+from pump_app.REST_classes.CourseSerializer import CourseSerializer
+from pump_app.REST_classes.CourseViewSet import CourseViewSet
+from pump_app.REST_classes.SaleViewSet import SaleViewSet
+from pump_app.REST_classes.SaleSerializer import SaleSerializer
+

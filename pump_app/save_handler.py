@@ -18,22 +18,6 @@ def set_customer_type(sender, instance, *args, **kwargs):
 
 
 
-
-
-from pump_app.model_classes.Sale import Sale
-"""
-It automatically calculates the amount of the sale (following strategies, if available) on each save()
-"""
-@receiver(post_save, sender=Sale)
-def post_save_getSaleAmount(sender, instance, *args, **kwargs):
-    from pump_app.model_classes.ManageSaleHandler import ManageSaleHandler
-
-    ManageSaleHandler().getAmount(instance)
-
-
-
-
-
 from pump_app.model_classes.Course import Course
 """
 It automatically associates the current course instance to CourseCatalog on each save()

@@ -19,6 +19,8 @@ class SingleLesson(models.Model):
 
     course = models.ForeignKey(Course, null=True, blank=True, related_name='single_lessons')
 
+
+
     """
     It creates a new instance of SingleLesson and saves it into db
 
@@ -27,6 +29,9 @@ class SingleLesson(models.Model):
     def makeNewSingleLesson(self):
         self.save()
         return self
+
+
+
     """
     It sets the attributes of current SingleLesson instance
     """
@@ -35,6 +40,8 @@ class SingleLesson(models.Model):
         self.startTime = startTime
         self.endTime = endTime
         self.save()
+
+
 
     def __unicode__(self):
         return str(self.date)

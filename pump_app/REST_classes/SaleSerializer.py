@@ -9,8 +9,8 @@ class SaleSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Sale
-		fields = ('id', 'dateTime', 'amount', 'applied_strategies', 'packets', 'user')
-		read_only_fields = ('dateTime', 'amount', 'applied_strategies', 'packets', 'user')
+		fields = ('id', 'dateTime', 'amount_prediscount', 'amount', 'applied_strategies', 'packets', 'user')
+		read_only_fields = ('dateTime', 'amount_prediscount', 'amount', 'applied_strategies', 'packets', 'user')
 
 
 
