@@ -1,0 +1,6 @@
+——DJANGO_YUML——
+Django Yuml it’s a powerful Python app which enables to make a reverse engineering of a custom Django’app. To install it:
+
+1) Put django_yuml folder into ‘/Library/Python/2.7/site-packages/‘ (Python path)
+
+4) Add it to INSTALLED_APPS (‘django_yuml’)
