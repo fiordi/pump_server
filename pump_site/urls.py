@@ -41,7 +41,8 @@ from rest_framework import routers
 from course.REST_classes import CourseViewSet, SingleLessonViewSet, RepeatedLessonViewSet
 from packet.REST_classes import PacketViewSet
 from sale.REST_classes import SaleViewSet
-from subscription.REST_classes import CustomerViewSet, SubscriptionViewSet
+from subscription.REST_classes import SubscriptionViewSet
+from customer.REST_classes import CustomerViewSet
 
 router = routers.DefaultRouter()
 router.register(r'course', CourseViewSet.CourseViewSet)

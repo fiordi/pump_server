@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'solo', #Singleton Libraries
     'course',
+    'customer',
     'packet',
     'sale',
     'subscription'
@@ -177,6 +178,5 @@ STATICFILES_DIRS = (
 # Graph models (used for reverse engineering from model to UML)
 
 GRAPH_MODELS = {
-  'all_applications': True,
   'group_models': True,
 }
