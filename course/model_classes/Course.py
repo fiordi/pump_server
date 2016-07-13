@@ -138,7 +138,7 @@ class Course(models.Model):
 
         #setto lo stato del corso duplicato come Incompleto
         Incomplete = IncompleteCourse.objects.all()[0]
-        course.setState(Incomplete)
+        course.setIncompleteState()
         course.save()
 
         #cerco tutte le repeatedLessons legate al courseNotModified e le duplico sul nuovo course
